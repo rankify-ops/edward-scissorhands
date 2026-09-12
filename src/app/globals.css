@@ -108,10 +108,14 @@ body {
   text-wrap: balance;
 }
 
+/*
+ * Hero only. It shares the fold with a booking card now, so it is sized to the
+ * copy column rather than the full page width.
+ */
 .d-xxl {
-  font-size: clamp(2.9rem, 10.4vw, 8.6rem);
+  font-size: clamp(2.75rem, 7vw, 6.6rem);
   letter-spacing: -0.042em;
-  line-height: 0.84;
+  line-height: 0.86;
 }
 .d-xl {
   font-size: clamp(2.6rem, 7.4vw, 6rem);
@@ -195,9 +199,12 @@ body {
 }
 
 .btn-ghost {
-  background: transparent;
+  /* A hairline at --rule strength disappears over the hero photograph, so the
+     outline button carries its own heavier border and a faint scrim. */
+  background: rgba(10, 10, 10, 0.28);
   color: var(--bone);
-  border: 1px solid var(--rule);
+  border: 1px solid rgba(244, 241, 234, 0.3);
+  backdrop-filter: blur(6px);
 }
 .btn-ghost:hover {
   border-color: var(--gold);
@@ -403,7 +410,7 @@ body {
   position: absolute;
   top: 0;
   left: 50%;
-  margin: -20px 0 0 -20px;
+  margin: -22px 0 0 -22px;
   will-change: transform;
   filter: drop-shadow(0 0 10px var(--gold-glow));
 }
@@ -412,7 +419,9 @@ body {
   /* Pivot in viewBox units, matching the rivet drawn at (12, 13.4). */
   transform-box: view-box;
   transform-origin: 12px 13.4px;
-  transition: transform 0.42s var(--ease-blade);
+  /* Duration is rewritten per half-cycle in ScrollScissors — shut fast, open
+     slow — so only the curve is set here. */
+  transition: transform 0.3s var(--ease-blade);
 }
 
 .rail-clippings {

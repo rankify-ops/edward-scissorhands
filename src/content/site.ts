@@ -118,6 +118,62 @@ export const chairRail = [
   { src: "chair-10", alt: "A cut in progress on the shop floor" },
 ];
 
+/*
+ * The hero booking card.
+ *
+ * Fresha cannot be embedded — their booking page sends
+ * `frame-ancestors 'self' https://*.fresha.com …`, so an iframe on this domain
+ * renders blank, and there is no public API. The supported route is a deep
+ * link built in the partner dashboard (Online booking → Link builder), which
+ * can target one service and also waives Fresha's new-client fee.
+ *
+ * So the card is native: the visitor picks here, and we hand off at the last
+ * step. Prices and durations are the real ones off the Balaclava menu
+ * (fresha/services-balaclava.csv), shown as "from" because the final price
+ * depends on the barber and the length of the job.
+ *
+ * TODO client: paste a Link builder URL into `url` for each row and the card
+ * will drop the visitor straight onto that service. Until then every row opens
+ * the main booking page, which still works — it just costs one extra tap.
+ */
+export const bookingOptions = [
+  {
+    id: "standard",
+    name: "Standard Haircut",
+    from: 48,
+    duration: "25–50 min",
+    url: null,
+  },
+  {
+    id: "skin-fade",
+    name: "Skin Fade",
+    from: 54,
+    duration: "30–60 min",
+    url: null,
+  },
+  {
+    id: "cut-beard",
+    name: "Haircut + Beard",
+    from: 77,
+    duration: "40–45 min",
+    url: null,
+  },
+  {
+    id: "razor-shave",
+    name: "Hot Towel Razor Shave",
+    from: 50,
+    duration: "30–50 min",
+    url: null,
+  },
+  {
+    id: "boys",
+    name: "Boys Cut",
+    from: 39,
+    duration: "25–30 min",
+    url: null,
+  },
+] as const;
+
 export const reviews = [
   {
     quote:

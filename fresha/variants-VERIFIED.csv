@@ -1,0 +1,5 @@
+parent_service,option,duration,price_from,note
+Standard Haircut,Haircut,25 mins - 30 mins,48,"Base option. Tailored haircut with styling product and consultation."
+Standard Haircut,Haircut + Beard,40 mins - 45 mins,77,"Shaping of short beard and trimmer line-up"
+Standard Haircut,Haircut + Premium Beard (Razor line-up),45 mins - 50 mins,80,"Haircut + beard shaping & razor line-up"
+Standard Haircut,Haircut + Razor Shave,50 mins,89,"Standard cut with hot towel face shave using cutthroat razor"

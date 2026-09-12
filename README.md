@@ -27,8 +27,10 @@ Rather than bolting on one gimmick, the same gesture repeats at four scales:
 
 1. **The travelling scissors** (`ScrollScissors.tsx`) — a pair of scissors rides
    the left gutter as you read. The line above it is solid gold (cut); below it
-   is still perforated. The blades snip shut every 260px of scroll and throw off
-   hair clippings that flutter down. Desktop only, and skipped entirely under
+   is still perforated. Every 165px of scroll the blades swing the full 27° and
+   slam shut, throwing off hair clippings that flutter down; a real snip is not
+   symmetrical, so closing runs at 105ms and reopening at 320ms, which is most
+   of what sells it. Desktop only, and skipped entirely under
    `prefers-reduced-motion`; nothing in it uses React state, so a long page costs
    a few transform writes per frame.
 2. **The blade wipe** (`.snip`) — photographs are revealed behind a travelling
@@ -36,6 +38,29 @@ Rather than bolting on one gimmick, the same gesture repeats at four scales:
 3. **Perforated rules** (`.cutline`) — dividers are dashed, not solid.
 4. **The menu leader** — hovering a price row runs a small scissors along the
    dotted leader between the service and its price.
+
+### The hero booking card
+
+The rating leads the page — 5.0 from 2,600+ reviews is the strongest thing this
+shop has to say, so it sits above the headline rather than under the buttons.
+The right of the fold is a native service picker: pick a cut, see what it costs
+and how long it takes, then hand off to Fresha.
+
+It has to be native, because **Fresha cannot be embedded**. Their booking page
+sends `Content-Security-Policy: frame-ancestors 'self' https://*.fresha.com …`,
+so an iframe on the client's own domain renders blank, and there is no public
+API. The supported route is a deep link built in the partner dashboard
+(Online booking → Link builder), which can target a single service and also
+waives Fresha's new-client fee.
+
+Until those links exist, every row opens the main booking page — one extra tap,
+nothing broken. Paste a Link builder URL into `url` on a row in
+`bookingOptions` and that row goes straight to the service.
+
+The card is a real `radiogroup`: arrow keys move the selection, the group is one
+tab stop, and only the CTA navigates. Prices come from
+`fresha/services-balaclava.csv` and are shown as "from", because the final
+number depends on the barber and the length of the job.
 
 ### From-the-chair rail
 
@@ -64,7 +89,20 @@ and it becomes a plain scroll-snap strip — nothing is lost, it just holds stil
       into a row.
 - [ ] **Higher-resolution team photos** — the ones on the current site are
       340×340 avatars, which is thin for a large grid.
-- [ ] Confirm the price list is current (taken from the existing site).
+- [ ] **Fresha Link builder URLs** for the five services in the hero card, so
+      each row deep-links to its own service instead of the main booking page.
+- [ ] Confirm the price list is current. The Services section still carries the
+      seven prices off the old site; the hero card uses the fuller Fresha menu
+      captured in `fresha/services-balaclava.csv`.
+- [ ] **The team list disagrees with Fresha.** This page shows the eleven
+      barbers from the old site; `fresha/team-balaclava.csv` lists eight, and
+      only five names overlap (Mateo, Max, Vlad, Dilan, Elena, Anna). Fresha is
+      presumably the current one — worth confirming before the team grid is
+      taken as correct.
+- [ ] **Second location.** There is a South Melbourne shop (Clarendon Centre,
+      g11/261 Clarendon St) with its own Fresha page. This page only covers
+      Balaclava; a location switcher and per-location booking links are the
+      obvious next step.
 - [ ] Phone number — the current site doesn't publish one, so there is no
       click-to-call anywhere on the page.
 - [ ] **Check the Instagram rail.** A couple of the eight stills look like
@@ -109,8 +147,11 @@ src/
     layout/          Header (incl. full-screen menu), Footer, StickyBar
     sections/        Hero, Marquee, ChairRail, Story, Services, Work,
                      Reviews, Team, Visit
-    ui/              ScrollScissors, OpenStatus, Reveal, Photo, Icons
+    ui/              ScrollScissors, BookingCard, OpenStatus, Reveal,
+                     Photo, Icons
   content/site.ts    every price, name, address and link on the page
+fresha/              service, team and variant data captured from the
+                     partner dashboard — the source for prices
 ```
 
 `components.css` is imported at the top of `globals.css`, so its rules land

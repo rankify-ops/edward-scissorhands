@@ -20,10 +20,17 @@ import { useEffect, useRef } from "react";
  *      are checked with matchMedia before the loop is ever started.
  */
 
-/** Pixels of scroll between snips. Roughly one per section at a normal pace. */
-const SNIP_EVERY = 260;
-/** How far the blades swing open, in degrees either side of closed. */
-const OPEN_DEG = 13;
+/** Pixels of scroll between snips — close enough together to read as cutting. */
+const SNIP_EVERY = 165;
+/** How far the blades swing open, in degrees either side of shut. */
+const OPEN_DEG = 27;
+/*
+ * A real snip is not symmetrical: the blades slam shut and then ease back
+ * open. Driving the two halves of the cycle at different speeds is most of
+ * what sells it.
+ */
+const CLOSE_MS = 105;
+const OPEN_MS = 320;
 /** Fraction of the viewport the scissors travels between page top and bottom. */
 const TRAVEL_TOP = 0.12;
 const TRAVEL_BOTTOM = 0.84;
@@ -89,7 +96,12 @@ export function ScrollScissors() {
       if (sinceSnip >= SNIP_EVERY) {
         sinceSnip = 0;
         closing = !closing;
-        angle = closing ? 1.5 : OPEN_DEG;
+        // All the way shut, all the way open — no half measures.
+        angle = closing ? 0 : OPEN_DEG;
+        const ms = closing ? CLOSE_MS : OPEN_MS;
+        for (const g of [bladeARef.current, bladeBRef.current]) {
+          if (g) g.style.transitionDuration = `${ms}ms`;
+        }
         if (closing) spawnClippings(top);
       }
 
@@ -145,7 +157,7 @@ export function ScrollScissors() {
       <div ref={clippingsRef} className="rail-clippings" />
 
       <div ref={rigRef} className="rail-rig">
-        <svg width="40" height="40" viewBox="0 0 24 24" fill="none">
+        <svg width="44" height="44" viewBox="-3 -2 30 28" fill="none">
           {/*
            * Both halves pivot about the same point, so rotating one by +a and
            * the other by -a opens and closes the blades cleanly. transform-box

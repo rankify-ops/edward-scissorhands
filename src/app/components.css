@@ -268,17 +268,22 @@
 
 /* ─────────────────────────── Hero ─────────────────────────── */
 
+/*
+ * Phones first: top-aligned and as tall as its content needs. A forced 100svh
+ * with the copy pinned to the bottom pushes the headline off the fold on a
+ * short screen, which is where it was before.
+ */
 .hero {
   position: relative;
-  display: flex;
-  align-items: flex-end;
-  min-height: 100svh;
-  padding-block: 128px 76px;
+  padding-block: 116px 56px;
   overflow: hidden;
 }
-@media (min-width: 900px) {
+@media (min-width: 1100px) {
   .hero {
-    padding-block: 150px 96px;
+    display: flex;
+    align-items: center;
+    min-height: 100svh;
+    padding-block: 132px 108px;
   }
 }
 
@@ -312,10 +317,54 @@
 .hero-inner {
   position: relative;
   z-index: 1;
+  display: grid;
+  gap: 40px;
 }
+@media (min-width: 1100px) {
+  .hero-inner {
+    /* Copy takes the larger share; the card is sized to its content. */
+    grid-template-columns: minmax(0, 1.35fr) minmax(320px, 0.65fr);
+    align-items: center;
+    gap: clamp(36px, 4.5vw, 72px);
+  }
+}
+/* The card never needs the full width of a tablet. */
+@media (min-width: 620px) and (max-width: 1099px) {
+  .hero-card {
+    max-width: 420px;
+  }
+}
+
+/* The rating leads the whole page. */
+.hero-rating {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 6px 12px;
+  margin-bottom: 20px;
+  font-size: 13.5px;
+  color: var(--bone-2);
+}
+.hero-rating a {
+  color: var(--bone-2);
+  transition: color 0.3s var(--ease);
+}
+.hero-rating a:hover {
+  color: var(--bone);
+}
+.hero-rating strong {
+  color: var(--bone);
+  font-weight: 600;
+}
+.stars {
+  display: inline-flex;
+  gap: 3px;
+  color: var(--gold);
+}
+
 .hero-eyebrow {
   display: block;
-  margin-bottom: 22px;
+  margin-bottom: 18px;
 }
 
 .hero-title {
@@ -330,10 +379,10 @@
 }
 .hero-sub {
   display: block;
-  max-width: 44ch;
-  margin-top: 26px;
+  max-width: 40ch;
+  margin-top: 24px;
   font-family: var(--font-sans), system-ui, sans-serif;
-  font-size: clamp(0.98rem, 1.3vw, 1.12rem);
+  font-size: clamp(0.98rem, 1.3vw, 1.1rem);
   font-weight: 400;
   line-height: 1.6;
   letter-spacing: 0;
@@ -345,44 +394,7 @@
   display: flex;
   flex-wrap: wrap;
   gap: 12px;
-  margin-top: 36px;
-}
-
-.hero-proof {
-  display: flex;
-  align-items: center;
-  flex-wrap: wrap;
-  gap: 12px 18px;
-  margin-top: 30px;
-  font-size: 13.5px;
-  color: var(--bone-2);
-}
-.hero-proof a {
-  color: var(--bone-2);
-  transition: color 0.3s var(--ease);
-}
-.hero-proof a:hover {
-  color: var(--bone);
-}
-.hero-proof strong {
-  color: var(--bone);
-  font-weight: 600;
-}
-.hero-proof-sep {
-  display: none;
-  width: 1px;
-  height: 14px;
-  background: var(--rule);
-}
-@media (min-width: 720px) {
-  .hero-proof-sep {
-    display: block;
-  }
-}
-.stars {
-  display: inline-flex;
-  gap: 3px;
-  color: var(--gold);
+  margin-top: 32px;
 }
 
 .hero-cue {
@@ -398,7 +410,7 @@
   color: var(--bone-3);
   animation: cue-bob 2.6s var(--ease) infinite;
 }
-@media (min-width: 900px) {
+@media (min-width: 1280px) {
   .hero-cue {
     display: grid;
   }
@@ -421,6 +433,135 @@
   .hero-cue {
     animation: none;
   }
+}
+
+/* ─────────────────────── Hero booking card ─────────────────────── */
+
+.book-card {
+  padding: 22px 20px 20px;
+  border: 1px solid var(--rule-gold);
+  border-radius: 18px;
+  /* Frosted over the photograph rather than a solid panel, so the hero image
+     still reads behind it. */
+  background: rgba(14, 13, 11, 0.72);
+  backdrop-filter: blur(22px) saturate(1.25);
+  box-shadow: 0 24px 60px rgba(0, 0, 0, 0.55);
+}
+@media (min-width: 1100px) {
+  .book-card {
+    padding: 24px 22px 20px;
+  }
+}
+
+.book-card-head {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px 14px;
+  padding-bottom: 16px;
+  margin-bottom: 6px;
+  border-bottom: 1px solid var(--rule);
+}
+
+.book-options {
+  display: grid;
+}
+
+.book-option {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr) auto;
+  align-items: center;
+  gap: 12px;
+  width: 100%;
+  padding: 11px 10px;
+  margin-inline: -10px;
+  border-radius: 12px;
+  text-align: left;
+  cursor: pointer;
+  transition: background 0.28s var(--ease);
+}
+.book-option + .book-option {
+  border-top: 1px solid var(--rule);
+}
+.book-option:hover {
+  background: rgba(244, 241, 234, 0.04);
+}
+.book-option[data-active] {
+  background: rgba(201, 162, 39, 0.1);
+}
+
+/* The marker is a scissors that only appears once the row is chosen. */
+.book-option-mark {
+  display: grid;
+  place-items: center;
+  width: 24px;
+  height: 24px;
+  border: 1px solid var(--rule);
+  border-radius: 50%;
+  color: var(--ink);
+  background: transparent;
+  transition: background 0.28s var(--ease), border-color 0.28s var(--ease),
+    color 0.28s var(--ease);
+}
+.book-option-mark svg {
+  opacity: 0;
+  transform: scale(0.6);
+  transition: opacity 0.28s var(--ease), transform 0.28s var(--ease);
+}
+.book-option[data-active] .book-option-mark {
+  background: var(--gold);
+  border-color: var(--gold);
+}
+.book-option[data-active] .book-option-mark svg {
+  opacity: 1;
+  transform: none;
+}
+
+.book-option-body {
+  display: grid;
+  gap: 3px;
+  min-width: 0;
+}
+.book-option-name {
+  font-family: var(--font-display), system-ui, sans-serif;
+  font-weight: 700;
+  font-size: 0.95rem;
+  letter-spacing: -0.01em;
+  text-transform: uppercase;
+  color: var(--bone);
+}
+/* Duration, under the name. The full service description lives in the menu. */
+.book-option-detail {
+  font-family: var(--font-mono), ui-monospace, monospace;
+  font-size: 10.5px;
+  letter-spacing: 0.08em;
+  color: var(--bone-3);
+}
+
+.book-option-meta {
+  white-space: nowrap;
+}
+.book-option-meta strong {
+  font-family: var(--font-mono), ui-monospace, monospace;
+  font-size: 12.5px;
+  font-weight: 500;
+  color: var(--gold);
+}
+
+.book-cta {
+  width: 100%;
+  margin-top: 16px;
+}
+
+.book-fine {
+  margin-top: 12px;
+  font-family: var(--font-mono), ui-monospace, monospace;
+  font-size: 9.5px;
+  letter-spacing: 0.11em;
+  text-transform: uppercase;
+  text-align: center;
+  color: var(--bone-3);
 }
 
 /* ─────────────────────────── Marquee ─────────────────────────── */
