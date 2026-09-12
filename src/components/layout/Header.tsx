@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { nav, site } from "@/content/site";
+import { LOGO, logos, nav, site } from "@/content/site";
 import { asset } from "@/lib/basePath";
 import { Close, Menu, Scissors } from "@/components/ui/Icons";
 import { OpenStatus } from "@/components/ui/OpenStatus";
@@ -41,9 +41,14 @@ export function Header() {
     <>
       <header className="site-header" data-scrolled={scrolled || undefined}>
         <div className="header-inner">
-          <a href="#top" className="brand" aria-label={`${site.name} — home`}>
+          <a
+            href="#top"
+            className="brand"
+            data-lockup={LOGO}
+            aria-label={`${site.name} — home`}
+          >
             {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img src={asset("/img/logo-sm.png")} alt={site.name} width={148} height={88} />
+            <img src={asset(logos[LOGO].header)} alt={site.name} width={560} height={155} />
           </a>
 
           <nav className="header-nav" aria-label="Primary">

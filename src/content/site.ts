@@ -37,6 +37,27 @@ export const site = {
  * JS getDay() — 0 is Sunday. The live OPEN/CLOSED chip in the header reads
  * this directly, so changing a time here changes the chip too.
  */
+/*
+ * Which logo lockup the header and footer use.
+ *
+ *   "crest"  the round badge — tall and square, so it renders small in a
+ *            76-88px bar, but the wordmark on it is spelled correctly
+ *   "wide"   the horizontal lockup — far better proportioned for a header
+ *
+ * Currently "crest", and deliberately: the horizontal artwork the client sent
+ * reads SCISSSORHANDS, with three S's. Everything else they own — the crest,
+ * the Instagram handle, the Fresha listing — spells it SCISSORHANDS, so the
+ * wide file is simply wrong and is not something to put at the top of every
+ * page. Both lockups are built and sized; flip this to "wide" the moment a
+ * corrected file arrives and the header and footer both follow.
+ */
+export const LOGO: "crest" | "wide" = "crest";
+
+export const logos = {
+  crest: { header: "/img/logo-sm.png", footer: "/img/logo.png", headerH: [44, 56] },
+  wide: { header: "/img/logo-wide-sm.png", footer: "/img/logo-wide.png", headerH: [26, 34] },
+} as const;
+
 export const hours: Array<{ label: string; open: number; close: number }> = [
   { label: "Sunday", open: 9, close: 17 },
   { label: "Monday", open: 9, close: 19 },

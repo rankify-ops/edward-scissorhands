@@ -1,4 +1,4 @@
-import { hoursSummary, nav, site } from "@/content/site";
+import { LOGO, hoursSummary, logos, nav, site } from "@/content/site";
 import { asset } from "@/lib/basePath";
 import { Reveal } from "@/components/ui/Reveal";
 import { Facebook, Instagram } from "@/components/ui/Icons";
@@ -31,13 +31,13 @@ export function Footer() {
       </div>
 
       <div className="wrap footer-grid">
-        <div className="footer-brand">
+        <div className="footer-brand" data-lockup={LOGO}>
           {/* eslint-disable-next-line @next/next/no-img-element */}
           <img
-            src={asset("/img/logo.png")}
+            src={asset(logos[LOGO].footer)}
             alt={site.name}
-            width={240}
-            height={143}
+            width={1200}
+            height={332}
             loading="lazy"
           />
           <p>The longest established barber shop in St Kilda and Balaclava.</p>

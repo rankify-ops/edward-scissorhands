@@ -89,12 +89,19 @@
 .brand img {
   width: auto;
   height: 44px;
-  /* The crest is black-filled; a faint brass halo lifts it off the ground. */
+  /* Both lockups are black-filled; a faint brass halo lifts them off the
+     ground. Heights differ because the wide one is a third of the aspect. */
   filter: drop-shadow(0 2px 14px rgba(201, 162, 39, 0.22));
+}
+.brand[data-lockup="wide"] img {
+  height: 26px;
 }
 @media (min-width: 900px) {
   .brand img {
     height: 56px;
+  }
+  .brand[data-lockup="wide"] img {
+    height: 34px;
   }
 }
 
@@ -1323,6 +1330,9 @@
 .footer-brand img {
   width: 190px;
   height: auto;
+}
+.footer-brand[data-lockup="wide"] img {
+  width: 280px;
 }
 .footer-brand p {
   max-width: 30ch;
