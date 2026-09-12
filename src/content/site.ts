@@ -41,17 +41,16 @@ export const site = {
  * Which logo lockup the header and footer use.
  *
  *   "crest"  the round badge — tall and square, so it renders small in a
- *            76-88px bar, but the wordmark on it is spelled correctly
- *   "wide"   the horizontal lockup — far better proportioned for a header
+ *            76-88px bar
+ *   "wide"   the horizontal lockup — far better proportioned for a header,
+ *            and what the client asked for
  *
- * Currently "crest", and deliberately: the horizontal artwork the client sent
- * reads SCISSSORHANDS, with three S's. Everything else they own — the crest,
- * the Instagram handle, the Fresha listing — spells it SCISSORHANDS, so the
- * wide file is simply wrong and is not something to put at the top of every
- * page. Both lockups are built and sized; flip this to "wide" the moment a
- * corrected file arrives and the header and footer both follow.
+ * Note the wide artwork reads SCISSSORHANDS, with three S's, where the crest,
+ * the Instagram handle and the Fresha listing all spell it SCISSORHANDS. The
+ * client has been told and wants it live regardless; swap in a corrected file
+ * at public/img/logo-wide*.png and nothing else needs to change.
  */
-export const LOGO: "crest" | "wide" = "crest";
+export const LOGO: "crest" | "wide" = "wide";
 
 export const logos = {
   crest: { header: "/img/logo-sm.png", footer: "/img/logo.png", headerH: [44, 56] },

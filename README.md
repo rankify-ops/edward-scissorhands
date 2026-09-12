@@ -81,25 +81,22 @@ and it becomes a plain scroll-snap strip — nothing is lost, it just holds stil
 
 ## Logo lockups
 
-Two are built and sized, switched by `LOGO` in `src/content/site.ts`:
+Two are built, switched by `LOGO` in `src/content/site.ts`:
 
-- **`"crest"`** (current) — the round badge. Tall and square, so it renders
-  small in a 76–88px header bar, but the wordmark on it is correct.
-- **`"wide"`** — the horizontal lockup. Much better proportioned for a header
-  and it balances the nav properly.
+- **`"wide"`** (current) — the horizontal lockup. Sized by width rather than
+  height, because at 3.6:1 matching the crest's height would leave it about
+  120px across and illegible: 148px wide on phones, 208px from 900px up.
+- **`"crest"`** — the round badge, kept as a fallback.
 
-**The wide file is not in use because it misspells the shop's name**: it reads
-`SCISSSORHANDS`, with three S's. The crest, the Instagram handle and the Fresha
-listing all spell it `SCISSORHANDS`, so the wide artwork is simply wrong.
+Note the wide artwork reads `SCISSSORHANDS`, with three S's, where the crest,
+the Instagram handle and the Fresha listing all spell it `SCISSORHANDS`. The
+client has been told and wants it live as-is. Drop a corrected file in at
+`public/img/logo-wide.png` and `logo-wide-sm.png` and nothing else changes.
 
-It is not a quick retouch either. The three S glyphs sit at an even pitch, so
-one can be spliced out of the big word cleanly — but the cut runs the full
-height of the file and takes a slice out of `EDWARD` and `BARBER SHOP` with it,
-turning them into `ÐWARD` and `BABER SHOP`. Doing it properly means rebuilding
-the lockup, not editing the PNG.
-
-Flip `LOGO` to `"wide"` when a corrected file arrives; the header and footer
-both follow it, and the sizes are already set.
+It is not a PNG retouch: the three S glyphs are evenly pitched so one splices
+out of the big word cleanly, but the cut runs the full height of the file and
+takes the same slice out of `EDWARD` and `BARBER SHOP`, leaving `ÐWARD` and
+`BABER SHOP`. It needs the lockup rebuilt.
 
 ## Still needed from the client
 
@@ -121,8 +118,8 @@ both follow it, and the sizes are already set.
       only five names overlap (Mateo, Max, Vlad, Dilan, Elena, Anna). Fresha is
       presumably the current one — worth confirming before the team grid is
       taken as correct.
-- [ ] **A corrected horizontal logo** — see Logo lockups above. The shape is
-      the right one for the header; the spelling is not.
+- [ ] **A corrected horizontal logo** — the one in use spells the shop's name
+      with three S's. See Logo lockups above.
 - [ ] **Second location.** There is a South Melbourne shop (Clarendon Centre,
       g11/261 Clarendon St) with its own Fresha page. This page only covers
       Balaclava; a location switcher and per-location booking links are the

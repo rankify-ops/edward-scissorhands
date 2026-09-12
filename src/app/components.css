@@ -90,18 +90,24 @@
   width: auto;
   height: 44px;
   /* Both lockups are black-filled; a faint brass halo lifts them off the
-     ground. Heights differ because the wide one is a third of the aspect. */
+     ground. */
   filter: drop-shadow(0 2px 14px rgba(201, 162, 39, 0.22));
 }
+/*
+ * The wide lockup is 3.6:1, so matching the crest's height would leave it
+ * about 120px across and illegible. It is sized by width instead — the height
+ * then falls out of the aspect and still clears the bar.
+ */
 .brand[data-lockup="wide"] img {
-  height: 26px;
+  width: 148px;
+  height: auto;
 }
 @media (min-width: 900px) {
   .brand img {
     height: 56px;
   }
   .brand[data-lockup="wide"] img {
-    height: 34px;
+    width: 208px;
   }
 }
 
