@@ -4,13 +4,13 @@ import { Reveal } from "@/components/ui/Reveal";
 import { ArrowUpRight } from "@/components/ui/Icons";
 
 /*
- * Eleven barbers, each a link straight into their Fresha profile.
+ * The eight barbers currently on the shop's Fresha listing, each a link
+ * straight into their profile. Portraits come from Fresha too, so the faces
+ * match whoever is actually taking bookings.
  *
- * Three of them have no portrait on the client's current site — rather than
- * shipping the grey stock silhouette that is sitting there now, those cards
- * fall back to a gold monogram on the shop's own black. It reads as a
- * deliberate card instead of a missing image, and it is obvious to the client
- * which three photos we still need.
+ * The monogram fallback stays for any barber added later without a photo — it
+ * reads as a deliberate card rather than a missing image — but nothing hits it
+ * today.
  */
 export function Team() {
   return (
@@ -20,10 +20,10 @@ export function Team() {
           <Reveal className="eyebrow">The Team</Reveal>
           <h2 className="display d-xl">
             <Reveal variant="mask" as="span">
-              Eleven chairs.
+              Eight chairs.
             </Reveal>
             <Reveal variant="mask" as="span" delay={80}>
-              Eleven specialties.
+              Eight specialties.
             </Reveal>
           </h2>
           <Reveal className="lede" delay={160}>

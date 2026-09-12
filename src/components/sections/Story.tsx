@@ -33,7 +33,7 @@ export function Story() {
             </p>
             <p className="lede">
               Skin fades, hot towel straight razor shaves, classic boys cuts, beard
-              sculpts. Eleven licensed barbers, each with their own specialty and
+              sculpts. Eight licensed barbers, each with their own specialty and
               each obsessed with their craft.
             </p>
           </Reveal>
@@ -44,7 +44,7 @@ export function Story() {
               <span>Years on Carlisle St</span>
             </div>
             <div>
-              <strong className="display d-md">11</strong>
+              <strong className="display d-md">8</strong>
               <span>Licensed barbers</span>
             </div>
             <div>

@@ -62,6 +62,22 @@ tab stop, and only the CTA navigates. Prices come from
 `fresha/services-balaclava.csv` and are shown as "from", because the final
 number depends on the barber and the length of the job.
 
+### Where the photography comes from
+
+| Section | Source |
+|---|---|
+| Hero, Story, Reviews, Visit | The venue shots off the old site, which are higher resolution than the same three on Fresha |
+| The Work | The shop's **Fresha portfolio**, pulled at 1200×1200 — six of the nine, leaving out a mannequin training head and two near-duplicates |
+| Our Barbers | **Fresha employee avatars**, so the faces match whoever is actually taking bookings |
+| From the chair | The shop's **Instagram** |
+
+Fresha's venue page is client-rendered and mixes the shop's own images in with
+a "venues nearby" carousel under the same partner account, so the scrape is
+filtered on the alt text naming Edward Scissorhands. The `f_width` and
+`f_quality` parameters on an `images.fresha.com` URL sit outside the signature,
+so the same signed URL serves up to 1200px — worth knowing if more are needed.
+Raw downloads are kept in `assets-raw/fresha/`.
+
 ### From-the-chair rail
 
 A full-bleed strip of vertical stills off the shop's Instagram sits under the
@@ -100,24 +116,13 @@ takes the same slice out of `EDWARD` and `BARBER SHOP`, leaving `ÐWARD` and
 
 ## Still needed from the client
 
-- [ ] **Portraits for Marcus J, Christian D and James S.** The current site has
-      the grey stock silhouette for all three; rather than ship that, those
-      cards fall back to a gold monogram. Photos drop straight in — add the file
-      to `public/img/team/` and set `photo` in `src/content/site.ts`.
 - [ ] **Two more reviews** off the Fresha wall, to turn the single pull quote
       into a row.
-- [ ] **Higher-resolution team photos** — the ones on the current site are
-      340×340 avatars, which is thin for a large grid.
 - [ ] **Fresha Link builder URLs** for the five services in the hero card, so
       each row deep-links to its own service instead of the main booking page.
 - [ ] Confirm the price list is current. The Services section still carries the
       seven prices off the old site; the hero card uses the fuller Fresha menu
       captured in `fresha/services-balaclava.csv`.
-- [ ] **The team list disagrees with Fresha.** This page shows the eleven
-      barbers from the old site; `fresha/team-balaclava.csv` lists eight, and
-      only five names overlap (Mateo, Max, Vlad, Dilan, Elena, Anna). Fresha is
-      presumably the current one — worth confirming before the team grid is
-      taken as correct.
 - [ ] **A corrected horizontal logo** — the one in use spells the shop's name
       with three S's. See Logo lockups above.
 - [ ] **Second location.** There is a South Melbourne shop (Clarendon Centre,
@@ -126,6 +131,9 @@ takes the same slice out of `EDWARD` and `BARBER SHOP`, leaving `ÐWARD` and
       obvious next step.
 - [ ] Phone number — the current site doesn't publish one, so there is no
       click-to-call anywhere on the page.
+- [ ] **Higher-resolution team portraits.** Fresha serves employee avatars at
+      340×340, which is thin for a grid this size. Originals from the client
+      would sharpen the team section noticeably.
 - [ ] **Check the Instagram rail.** A couple of the eight stills look like
       reposts rather than shots taken at 190 Carlisle Street. Worth confirming
       before this moves to a live domain — swap any that aren't theirs by

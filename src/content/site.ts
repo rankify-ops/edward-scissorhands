@@ -83,34 +83,44 @@ export const services = [
   { name: "Pensioner Trim", price: 35, note: "Seniors' rate, any day" },
 ];
 
-export const team = [
-  { name: "Mateo", role: "Master Barber", photo: "mateo" },
-  { name: "Brandon", role: "Senior Barber", photo: "brandon" },
-  { name: "Max", role: "Senior Barber", photo: "max" },
-  { name: "Vlad", role: "Senior Barber", photo: "vlad" },
-  { name: "Dilan", role: "Barber", photo: "dilan" },
-  { name: "Elena", role: "Barber", photo: "elena" },
-  { name: "Anna", role: "Barber", photo: "anna" },
-  { name: "Wing", role: "Barber", photo: "wing" },
-  // TODO client: these three have no portrait on the current site — a photo
-  // each and they drop straight into the grid.
-  { name: "Marcus J", role: "Barber", photo: null },
-  { name: "Christian D", role: "Barber", photo: null },
-  { name: "James S", role: "Barber", photo: null },
-] as const;
+/*
+ * The current roster, taken from the shop's own Fresha listing along with each
+ * barber's portrait — Fresha is the booking system, so it is the authority on
+ * who is actually cutting. It lists eight; the old site listed eleven, five of
+ * whom no longer appear (Brandon, Wing, Marcus J, Christian D, James S) and
+ * three of whom had only a grey stock silhouette. Roles come from the team
+ * export in fresha/team-balaclava.csv, with "Barber" where it was blank.
+ */
+/*
+ * Typed rather than `as const`: every barber has a portrait today, so a const
+ * assertion would narrow `photo` to a union of strings and make the monogram
+ * fallback in Team.tsx unreachable — which TypeScript then rejects. Declaring
+ * the field nullable keeps that path valid for the next barber who joins
+ * before their photo does.
+ */
+export const team: Array<{ name: string; role: string; photo: string | null }> = [
+  { name: "Pablo", role: "Barber", photo: "pablo" },
+  { name: "Mateo", role: "Pro Barber", photo: "mateo" },
+  { name: "Jack", role: "Barber", photo: "jack" },
+  { name: "Max", role: "Professional Barber", photo: "max" },
+  { name: "Vlad", role: "Pro Barber", photo: "vlad" },
+  { name: "Dilan", role: "Pro Barber", photo: "dilan" },
+  { name: "Elena", role: "Senior Barber", photo: "elena" },
+  { name: "Anna", role: "Pro Barber", photo: "anna" },
+];
 
 /*
- * Four cuts lead, then the two shop shots. Alt text describes what is
- * actually in each frame — cut-5 is the Carlisle Street storefront in
- * daylight, not a haircut, whatever its filename suggests.
+ * Straight off the shop's Fresha portfolio at 1200px — real finished cuts
+ * rather than the mixed bag the old site carried. Three of the six have the
+ * branded wall in frame, which does the "this is actually us" work for free.
  */
 export const gallery = [
-  { src: "cut-1", alt: "Skin fade and sharp line up, finished at the chair", tall: true },
-  { src: "cut-2", alt: "High fade with a sculpted full beard", tall: true },
-  { src: "cut-4", alt: "Textured crop over a tight fade", tall: false },
-  { src: "cut-3", alt: "Clean taper through the back and neckline", tall: true },
-  { src: "cut-5", alt: "Edward Scissorhands on Carlisle Street in daylight", tall: false },
-  { src: "chairs", alt: "Leather chairs and counter tools in the shop", tall: false },
+  { src: "work/w-4", alt: "Tight skin fade finished in the chair", tall: true },
+  { src: "work/w-1", alt: "Slicked-back cut with a high disconnected fade", tall: true },
+  { src: "work/w-5", alt: "A client in the chair at 190 Carlisle Street", tall: false },
+  { src: "work/w-2", alt: "Modern mullet with a clean taper through the sides", tall: true },
+  { src: "work/w-3", alt: "Blonde quiff with a scissor-cut top", tall: false },
+  { src: "work/w-6", alt: "Textured crop over a low fade", tall: false },
 ];
 
 /*
