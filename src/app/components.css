@@ -348,14 +348,18 @@
   }
 }
 
-/* The rating leads the whole page. */
+/*
+ * The rating leads the whole page, so the stars carry real weight rather than
+ * sitting as a 14px garnish — they are the first thing read and they should
+ * look like it.
+ */
 .hero-rating {
   display: flex;
   align-items: center;
   flex-wrap: wrap;
-  gap: 6px 12px;
-  margin-bottom: 20px;
-  font-size: 13.5px;
+  gap: 8px 14px;
+  margin-bottom: 22px;
+  font-size: 15px;
   color: var(--bone-2);
 }
 .hero-rating a {
@@ -373,6 +377,11 @@
   display: inline-flex;
   gap: 3px;
   color: var(--gold);
+}
+/* Hero only — bigger, wider set, and lit so they read against the photo. */
+.stars-lg {
+  gap: 5px;
+  filter: drop-shadow(0 1px 6px var(--gold-glow));
 }
 
 .hero-eyebrow {

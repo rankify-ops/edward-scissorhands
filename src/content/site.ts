@@ -29,7 +29,7 @@ export const site = {
     instagram: "https://www.instagram.com/edward_scissorhands_stkilda/",
     facebook: "https://www.facebook.com/StKildaBarberShop/",
   },
-  rating: { score: "5.0", count: "2,600+", source: "Fresha" },
+  rating: { score: "5.0", count: "3,000+" },
 } as const;
 
 /*

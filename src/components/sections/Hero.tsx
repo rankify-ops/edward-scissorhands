@@ -7,7 +7,7 @@ import { ArrowDown, Star } from "@/components/ui/Icons";
 /*
  * Full-bleed photograph, near-black wash, two columns.
  *
- * The rating leads — 5.0 from 2,600+ reviews is the strongest thing this shop
+ * The rating leads — 5.0 from 3,000+ reviews is the strongest thing this shop
  * has to say, so it sits above the headline rather than being buried under the
  * buttons. Then the line that shouts, then the sentence that has to rank
  * ("longest established barber shop in St Kilda"), both inside the one h1.
@@ -34,16 +34,15 @@ export function Hero() {
       <div className="wrap hero-inner">
         <div className="hero-copy">
           <Reveal className="hero-rating" delay={60}>
-            <span className="stars" aria-hidden>
-              <Star />
-              <Star />
-              <Star />
-              <Star />
-              <Star />
+            <span className="stars stars-lg" aria-hidden>
+              <Star size={22} />
+              <Star size={22} />
+              <Star size={22} />
+              <Star size={22} />
+              <Star size={22} />
             </span>
             <a href={site.reviewsUrl} target="_blank" rel="noopener noreferrer">
               <strong>{site.rating.score}</strong> from {site.rating.count} reviews
-              on {site.rating.source}
             </a>
           </Reveal>
 
