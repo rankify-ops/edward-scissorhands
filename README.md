@@ -27,12 +27,19 @@ Rather than bolting on one gimmick, the same gesture repeats at four scales:
 
 1. **The travelling scissors** (`ScrollScissors.tsx`) — a pair of scissors rides
    the left gutter as you read. The line above it is solid gold (cut); below it
-   is still perforated. Every 165px of scroll the blades swing the full 27° and
-   slam shut, throwing off hair clippings that flutter down; a real snip is not
-   symmetrical, so closing runs at 105ms and reopening at 320ms, which is most
-   of what sells it. Desktop only, and skipped entirely under
-   `prefers-reduced-motion`; nothing in it uses React state, so a long page costs
-   a few transform writes per frame.
+   is still perforated. Every 88px of scroll the blades swing 31° off the centre
+   line and slam back shut, blade against blade, throwing off hair clippings
+   that flutter down. A real snip is not symmetrical, so closing runs at 85ms
+   and reopening at 230ms, which is most of what sells it.
+
+   Both halves are drawn **shut** — blade straight up from the rivet, shank
+   bending down to its bow — so rotation zero is the closed position and the
+   animation only ever opens them. The first version drew them already crossed
+   in an X and rotated from there, which left 81° between the blades at its
+   tightest: they never actually met, however far it swung.
+
+   Desktop only, and skipped entirely under `prefers-reduced-motion`; nothing in
+   it uses React state, so a long page costs a few transform writes per frame.
 2. **The blade wipe** (`.snip`) — photographs are revealed behind a travelling
    gold hairline instead of a fade.
 3. **Perforated rules** (`.cutline`) — dividers are dashed, not solid.

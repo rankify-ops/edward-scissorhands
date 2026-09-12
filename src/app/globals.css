@@ -410,15 +410,15 @@ body {
   position: absolute;
   top: 0;
   left: 50%;
-  margin: -22px 0 0 -22px;
+  margin: -23px 0 0 -23px;
   will-change: transform;
   filter: drop-shadow(0 0 10px var(--gold-glow));
 }
 
 .blade {
-  /* Pivot in viewBox units, matching the rivet drawn at (12, 13.4). */
+  /* Pivot in viewBox units, matching the rivet drawn at (12, 13). */
   transform-box: view-box;
-  transform-origin: 12px 13.4px;
+  transform-origin: 12px 13px;
   /* Duration is rewritten per half-cycle in ScrollScissors — shut fast, open
      slow — so only the curve is set here. */
   transition: transform 0.3s var(--ease-blade);

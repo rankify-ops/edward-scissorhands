@@ -20,17 +20,23 @@ import { useEffect, useRef } from "react";
  *      are checked with matchMedia before the loop is ever started.
  */
 
-/** Pixels of scroll between snips — close enough together to read as cutting. */
-const SNIP_EVERY = 165;
-/** How far the blades swing open, in degrees either side of shut. */
-const OPEN_DEG = 27;
+/** Pixels of scroll between snips — roughly a snip per flick of the wheel. */
+const SNIP_EVERY = 88;
+/** How far each blade swings off the centre line, so the pair opens to 2x. */
+const OPEN_DEG = 31;
+/**
+ * Shut, in degrees. Not quite zero: at exactly zero the two halves sit on top
+ * of one another and read as a single blade, so they stop a hair apart, which
+ * is also where a real pair meets edge to edge.
+ */
+const SHUT_DEG = 1.5;
 /*
  * A real snip is not symmetrical: the blades slam shut and then ease back
  * open. Driving the two halves of the cycle at different speeds is most of
  * what sells it.
  */
-const CLOSE_MS = 105;
-const OPEN_MS = 320;
+const CLOSE_MS = 85;
+const OPEN_MS = 230;
 /** Fraction of the viewport the scissors travels between page top and bottom. */
 const TRAVEL_TOP = 0.12;
 const TRAVEL_BOTTOM = 0.84;
@@ -97,7 +103,7 @@ export function ScrollScissors() {
         sinceSnip = 0;
         closing = !closing;
         // All the way shut, all the way open — no half measures.
-        angle = closing ? 0 : OPEN_DEG;
+        angle = closing ? SHUT_DEG : OPEN_DEG;
         const ms = closing ? CLOSE_MS : OPEN_MS;
         for (const g of [bladeARef.current, bladeBRef.current]) {
           if (g) g.style.transitionDuration = `${ms}ms`;
@@ -157,43 +163,51 @@ export function ScrollScissors() {
       <div ref={clippingsRef} className="rail-clippings" />
 
       <div ref={rigRef} className="rail-rig">
-        <svg width="44" height="44" viewBox="-3 -2 30 28" fill="none">
+        <svg width="46" height="46" viewBox="-2 -1 28 26" fill="none">
           {/*
-           * Both halves pivot about the same point, so rotating one by +a and
-           * the other by -a opens and closes the blades cleanly. transform-box
-           * and transform-origin are set in CSS, in user units on the viewBox.
+           * Each half is drawn SHUT: blade straight up the centre line from the
+           * rivet at (12, 13), then a shank bending down to its bow. Both halves
+           * therefore lie on top of one another at rotation zero, and the
+           * animation only ever opens them — which is why a full snip can
+           * actually close, blade against blade.
+           *
+           * An earlier version drew the blades already crossed in an X and
+           * rotated from there; that geometry left 81 degrees between them at
+           * its tightest, so they never met however far it swung.
            */}
           <g ref={bladeARef} className="blade">
             <path
-              d="M8.6 15.8 19.4 3.2"
+              d="M12 2.4 12 13 7.4 17.6"
               stroke="var(--gold-bright)"
               strokeWidth="1.5"
               strokeLinecap="round"
+              strokeLinejoin="round"
             />
             <circle
-              cx="6.6"
-              cy="19"
-              r="2.6"
+              cx="5.9"
+              cy="19.1"
+              r="2.4"
               stroke="var(--gold-bright)"
               strokeWidth="1.5"
             />
           </g>
           <g ref={bladeBRef} className="blade">
             <path
-              d="M15.4 15.8 4.6 3.2"
+              d="M12 2.4 12 13 16.6 17.6"
               stroke="var(--gold-bright)"
               strokeWidth="1.5"
               strokeLinecap="round"
+              strokeLinejoin="round"
             />
             <circle
-              cx="17.4"
-              cy="19"
-              r="2.6"
+              cx="18.1"
+              cy="19.1"
+              r="2.4"
               stroke="var(--gold-bright)"
               strokeWidth="1.5"
             />
           </g>
-          <circle cx="12" cy="13.4" r="1.15" fill="var(--gold-bright)" />
+          <circle cx="12" cy="13" r="1.15" fill="var(--gold-bright)" />
         </svg>
       </div>
     </div>
