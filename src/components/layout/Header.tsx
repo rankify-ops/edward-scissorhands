@@ -2,6 +2,8 @@
 
 import { useEffect, useState } from "react";
 import { LOGO, logos, nav, site } from "@/content/site";
+import { useLocation } from "@/components/location/LocationProvider";
+import { LocationSwitch } from "@/components/location/LocationSwitch";
 import { asset } from "@/lib/basePath";
 import { Close, Menu, Scissors } from "@/components/ui/Icons";
 import { OpenStatus } from "@/components/ui/OpenStatus";
@@ -14,6 +16,7 @@ import { OpenStatus } from "@/components/ui/OpenStatus";
  * what both reference sites do and what reads best one-handed.
  */
 export function Header() {
+  const { shop } = useLocation();
   const [open, setOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
 
@@ -63,11 +66,11 @@ export function Header() {
             <OpenStatus className="header-status" />
             <a
               className="btn btn-gold btn-sm"
-              href={site.booking}
-              target="_blank"
-              rel="noopener noreferrer"
+              href={shop.booking ?? `tel:${shop.phone}`}
+              target={shop.booking ? "_blank" : undefined}
+              rel={shop.booking ? "noopener noreferrer" : undefined}
             >
-              Book Appointment
+              {shop.booking ? "Book Appointment" : "Call the Shop"}
             </a>
             <button
               type="button"
@@ -96,31 +99,40 @@ export function Header() {
             </a>
           ))}
           <a
-            href={site.booking}
-            target="_blank"
-            rel="noopener noreferrer"
+            href={shop.booking ?? `tel:${shop.phone}`}
+            target={shop.booking ? "_blank" : undefined}
+            rel={shop.booking ? "noopener noreferrer" : undefined}
             onClick={() => setOpen(false)}
             className="menu-book"
             style={{ transitionDelay: `${90 + nav.length * 55}ms` }}
           >
-            <span>Book Appointment</span>
+            <span>{shop.booking ? "Book Appointment" : "Call the Shop"}</span>
             <Scissors size={18} />
           </a>
         </nav>
 
         <div className="menu-foot">
+          {/* The switcher sits in the menu too, since that is the whole nav
+              on a phone and the address under it has to make sense. */}
+          <LocationSwitch size="sm" label="Choose a shop" />
           <OpenStatus />
           <p>
-            {site.address.street}
+            {shop.address.line1}
             <br />
-            {site.address.suburb}, {site.address.city} {site.address.state}{" "}
-            {site.address.postcode}
+            {shop.address.line2 ? (
+              <>
+                {shop.address.line2}
+                <br />
+              </>
+            ) : null}
+            {shop.address.suburb}, {shop.address.city} {shop.address.state}{" "}
+            {shop.address.postcode}
           </p>
           <div className="menu-social">
-            <a href={site.social.instagram} target="_blank" rel="noopener noreferrer">
+            <a href={shop.social.instagram} target="_blank" rel="noopener noreferrer">
               Instagram
             </a>
-            <a href={site.social.facebook} target="_blank" rel="noopener noreferrer">
+            <a href={shop.social.facebook} target="_blank" rel="noopener noreferrer">
               Facebook
             </a>
           </div>

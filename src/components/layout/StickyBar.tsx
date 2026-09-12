@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { site } from "@/content/site";
+import { useLocation } from "@/components/location/LocationProvider";
 import { Pin, Scissors } from "@/components/ui/Icons";
 
 /*
@@ -9,6 +9,7 @@ import { Pin, Scissors } from "@/components/ui/Icons";
  * — showing it immediately would cover the hero's own CTA with the same words.
  */
 export function StickyBar() {
+  const { shop } = useLocation();
   const [shown, setShown] = useState(false);
 
   useEffect(() => {
@@ -22,16 +23,16 @@ export function StickyBar() {
     <div className="sticky-bar" data-shown={shown || undefined}>
       <a
         className="btn btn-gold"
-        href={site.booking}
-        target="_blank"
-        rel="noopener noreferrer"
+        href={shop.booking ?? `tel:${shop.phone}`}
+        target={shop.booking ? "_blank" : undefined}
+        rel={shop.booking ? "noopener noreferrer" : undefined}
       >
         <Scissors size={16} />
-        Book Now
+        {shop.booking ? "Book Now" : "Call Now"}
       </a>
       <a
         className="btn btn-ghost"
-        href={site.directions}
+        href={shop.directions}
         target="_blank"
         rel="noopener noreferrer"
       >

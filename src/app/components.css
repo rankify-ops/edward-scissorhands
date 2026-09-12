@@ -625,6 +625,128 @@
   }
 }
 
+/* ─────────────────────── Location switcher ─────────────────────── */
+
+/*
+ * Two shops, both shown at once rather than hidden behind a dropdown — with
+ * only two, showing the pair and marking one is the clearest possible answer
+ * to "which am I looking at". The selected half is filled gold and keeps its
+ * pin, so it reads by shape and weight as well as by colour.
+ */
+.loc-switch {
+  display: grid;
+  /* minmax(0,1fr), not 1fr: the longer label would otherwise claim the extra
+     width and leave the two halves visibly uneven. */
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 4px;
+  padding: 4px;
+  border: 1px solid var(--rule);
+  border-radius: 999px;
+  background: rgba(10, 10, 10, 0.5);
+}
+
+.loc-option {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  min-height: 38px;
+  padding-inline: 8px;
+  border-radius: 999px;
+  font-family: var(--font-mono), ui-monospace, monospace;
+  font-size: 11px;
+  font-weight: 500;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  white-space: nowrap;
+  color: var(--bone-3);
+  cursor: pointer;
+  transition: background 0.3s var(--ease), color 0.3s var(--ease);
+}
+.loc-option svg {
+  flex: none;
+  opacity: 0.55;
+  transition: opacity 0.3s var(--ease);
+}
+.loc-option:hover {
+  color: var(--bone);
+}
+.loc-option[data-active] {
+  background: var(--gold);
+  color: var(--ink);
+  font-weight: 500;
+}
+.loc-option[data-active] svg {
+  opacity: 1;
+}
+
+.loc-switch[data-size="sm"] .loc-option {
+  min-height: 32px;
+  padding-inline: 10px;
+  font-size: 10px;
+  letter-spacing: 0.08em;
+}
+
+/* Caveat shown only once the other shop is selected. */
+.loc-note {
+  margin-top: 20px;
+  padding: 12px 16px;
+  border-left: 2px solid var(--gold-deep);
+  background: rgba(201, 162, 39, 0.07);
+  font-size: 13.5px;
+  line-height: 1.55;
+  color: var(--bone-2);
+  max-width: 56ch;
+}
+
+/* ───────────────── Booking card: walk-in shops ───────────────── */
+
+.book-walkin {
+  padding-top: 18px;
+}
+.book-walkin-lead {
+  font-size: 14px;
+  line-height: 1.6;
+  color: var(--bone-2);
+}
+.book-walkin-lead strong {
+  color: var(--gold);
+  font-weight: 600;
+}
+
+.book-walkin-facts {
+  display: grid;
+  gap: 14px;
+  margin: 20px 0 4px;
+  padding-top: 16px;
+  border-top: 1px solid var(--rule);
+}
+.book-walkin-facts dt {
+  font-family: var(--font-mono), ui-monospace, monospace;
+  font-size: 10px;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--gold);
+  margin-bottom: 5px;
+}
+.book-walkin-facts dd {
+  margin: 0;
+  font-size: 14px;
+  line-height: 1.5;
+  color: var(--bone);
+}
+
+/* The card's own switcher sits between the head and whatever follows it. */
+.book-card .loc-switch {
+  margin: 14px 0 4px;
+}
+
+/* Visit repeats the switcher under its eyebrow. */
+.visit-switch {
+  max-width: 340px;
+  margin-top: 16px;
+}
+
 /* ─────────────────────── From-the-chair rail ─────────────────────── */
 
 .chair-rail {
@@ -1236,6 +1358,14 @@
 @media (min-width: 560px) {
   .visit-facts {
     grid-template-columns: repeat(2, 1fr);
+  }
+}
+/* Room to breathe once there is width for it. */
+@media (min-width: 420px) {
+  .loc-option {
+    gap: 7px;
+    padding-inline: 12px;
+    letter-spacing: 0.1em;
   }
 }
 .visit-fact-head {

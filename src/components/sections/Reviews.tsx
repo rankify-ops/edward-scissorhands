@@ -1,4 +1,5 @@
 import { reviews, site } from "@/content/site";
+import { shopById } from "@/content/locations";
 import { Photo } from "@/components/ui/Photo";
 import { Reveal } from "@/components/ui/Reveal";
 import { Star } from "@/components/ui/Icons";
@@ -11,6 +12,9 @@ import { Star } from "@/components/ui/Icons";
  */
 export function Reviews() {
   const lead = reviews[0];
+  // The review wall belongs to St Kilda, which is the only claimed venue —
+  // it does not follow the switcher.
+  const stKilda = shopById("st-kilda");
 
   return (
     <section className="reviews">
@@ -49,7 +53,7 @@ export function Reviews() {
         <Reveal delay={200}>
           <a
             className="btn btn-ghost btn-block"
-            href={site.reviewsUrl}
+            href={stKilda.reviewsUrl ?? "#"}
             target="_blank"
             rel="noopener noreferrer"
           >

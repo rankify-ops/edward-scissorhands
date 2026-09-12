@@ -1,10 +1,14 @@
-import { LOGO, hoursSummary, logos, nav, site } from "@/content/site";
+"use client";
+
+import { LOGO, logos, nav, site } from "@/content/site";
+import { useLocation } from "@/components/location/LocationProvider";
 import { asset } from "@/lib/basePath";
 import { Reveal } from "@/components/ui/Reveal";
 import { Facebook, Instagram } from "@/components/ui/Icons";
 
 export function Footer() {
-  const { street, suburb, city, state, postcode } = site.address;
+  const { shop } = useLocation();
+  const { line1, line2, suburb, city, state, postcode } = shop.address;
 
   return (
     <footer className="site-footer">
@@ -17,11 +21,11 @@ export function Footer() {
           <p>Walk-ins welcome, seven days.</p>
           <a
             className="btn btn-gold btn-block"
-            href={site.booking}
-            target="_blank"
-            rel="noopener noreferrer"
+            href={shop.booking ?? `tel:${shop.phone}`}
+            target={shop.booking ? "_blank" : undefined}
+            rel={shop.booking ? "noopener noreferrer" : undefined}
           >
-            Book Appointment
+            {shop.booking ? "Book Appointment" : `Call ${shop.phoneDisplay}`}
           </a>
         </Reveal>
       </div>
@@ -45,9 +49,15 @@ export function Footer() {
 
         <div className="footer-col">
           <h3>Visit</h3>
-          <a href={site.directions} target="_blank" rel="noopener noreferrer">
-            {street}
+          <a href={shop.directions} target="_blank" rel="noopener noreferrer">
+            {line1}
             <br />
+            {line2 ? (
+              <>
+                {line2}
+                <br />
+              </>
+            ) : null}
             {suburb}, {city} {state} {postcode}
           </a>
         </div>
@@ -55,7 +65,7 @@ export function Footer() {
         <div className="footer-col">
           <h3>Hours</h3>
           <ul>
-            {hoursSummary.map((h) => (
+            {shop.hoursSummary.map((h) => (
               <li key={h.days}>
                 {h.days}
                 <span>{h.time}</span>
@@ -73,14 +83,18 @@ export function Footer() {
               </li>
             ))}
             <li>
-              <a href={site.booking} target="_blank" rel="noopener noreferrer">
-                Book Appointment
+              <a
+                href={shop.booking ?? `tel:${shop.phone}`}
+                target={shop.booking ? "_blank" : undefined}
+                rel={shop.booking ? "noopener noreferrer" : undefined}
+              >
+                {shop.booking ? "Book Appointment" : "Call the Shop"}
               </a>
             </li>
           </ul>
           <div className="footer-social">
             <a
-              href={site.social.instagram}
+              href={shop.social.instagram}
               target="_blank"
               rel="noopener noreferrer"
               aria-label="Edward Scissorhands on Instagram"
@@ -88,7 +102,7 @@ export function Footer() {
               <Instagram />
             </a>
             <a
-              href={site.social.facebook}
+              href={shop.social.facebook}
               target="_blank"
               rel="noopener noreferrer"
               aria-label="Edward Scissorhands on Facebook"

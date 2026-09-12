@@ -102,6 +102,52 @@ and it becomes a plain scroll-snap strip — nothing is lost, it just holds stil
   the full price list, all eleven barbers, and a `ReserveAction` pointing at
   Fresha.
 
+## Two shops, one codebase
+
+There are two Edward Scissorhands, and to a visitor they are not the same kind
+of business:
+
+| | Balaclava / St Kilda | South Melbourne |
+|---|---|---|
+| Address | 190 Carlisle Street | Clarendon Centre, g11/261 Clarendon St |
+| Booking | Fresha, online | **Walk-ins and phone only** |
+| Hours | Mon–Fri 9–7, Sat–Sun 9–5 | Mon–Fri 9–6:30, Sat–Sun 9–5 |
+| Reviews | 5.0 from 3,000+ | none published |
+| Instagram | `@edward_scissorhands_stkilda` | `@edward_scissorhands_barber` |
+
+South Melbourne's Fresha entry is an unclaimed listing that says outright the
+business "is not currently affiliated with or partnered with Fresha", so there
+is no online booking to link to and no review score to quote. `booking: null`
+in `src/content/locations.ts` is what every component keys off: the hero card
+becomes a walk-in panel with the phone number, the header CTA becomes "Call the
+Shop", the sticky bar becomes "Call Now", and the hero drops the star rating
+rather than borrowing St Kilda's.
+
+The switcher is a segmented control rather than a dropdown — with only two
+shops, showing both and filling one gold answers "which am I looking at" at a
+glance. It appears three times: in the hero booking card, in the mobile menu,
+and again at the top of Visit, which is where someone goes when they actually
+want to travel somewhere. The choice is remembered in `localStorage` and syncs
+across tabs.
+
+The price list and the team grid are St Kilda's — that is the only claimed
+Fresha venue, and South Melbourne publishes neither. Rather than show St Kilda's
+numbers under a South Melbourne heading, both sections grow a one-line note
+saying whose they are (`StKildaOnlyNote`).
+
+### Building the South Melbourne site
+
+Flip one constant:
+
+```ts
+// src/content/locations.ts
+export const DEFAULT_LOCATION: LocationId = "south-melbourne";
+```
+
+That is a build-time default, not a runtime guess, so each shop's own site opens
+on itself and the switcher still gets you to the other one. Change the repo name
+in `.github/workflows/deploy.yml` and `site.url` to match wherever it deploys.
+
 ## Logo lockups
 
 Two are built, switched by `LOGO` in `src/content/site.ts`:
@@ -132,10 +178,12 @@ takes the same slice out of `EDWARD` and `BARBER SHOP`, leaving `ÐWARD` and
       captured in `fresha/services-balaclava.csv`.
 - [ ] **A corrected horizontal logo** — the one in use spells the shop's name
       with three S's. See Logo lockups above.
-- [ ] **Second location.** There is a South Melbourne shop (Clarendon Centre,
-      g11/261 Clarendon St) with its own Fresha page. This page only covers
-      Balaclava; a location switcher and per-location booking links are the
-      obvious next step.
+- [ ] **Which South Melbourne phone number is right.** Three are published:
+      +61 489 265 375 (Fresha), 0403 185 329 (Facebook) and (03) 9690 1604
+      (Yelp). The site uses the Fresha one, listed there under "Call to book".
+- [ ] **South Melbourne prices, team and photography.** Everything on the page
+      bar the address, hours and phone is currently St Kilda's, and flagged as
+      such when that shop is selected.
 - [ ] Phone number — the current site doesn't publish one, so there is no
       click-to-call anywhere on the page.
 - [ ] **Higher-resolution team portraits.** Fresha serves employee avatars at
@@ -180,12 +228,15 @@ src/
     layout.tsx       fonts, metadata, JSON-LD
     page.tsx         section order
   components/
+    location/        LocationProvider, LocationSwitch, BookLink,
+                     StKildaOnlyNote
     layout/          Header (incl. full-screen menu), Footer, StickyBar
     sections/        Hero, Marquee, ChairRail, Story, Services, Work,
                      Reviews, Team, Visit
     ui/              ScrollScissors, BookingCard, OpenStatus, Reveal,
                      Photo, Icons
-  content/site.ts    every price, name, address and link on the page
+  content/site.ts       brand-level copy, prices, team, galleries
+  content/locations.ts  the two shops, and DEFAULT_LOCATION
 fresha/              service, team and variant data captured from the
                      partner dashboard — the source for prices
 ```

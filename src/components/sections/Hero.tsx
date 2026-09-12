@@ -1,4 +1,6 @@
-import { site } from "@/content/site";
+"use client";
+
+import { useLocation } from "@/components/location/LocationProvider";
 import { Photo } from "@/components/ui/Photo";
 import { Reveal } from "@/components/ui/Reveal";
 import { BookingCard } from "@/components/ui/BookingCard";
@@ -20,6 +22,8 @@ import { ArrowDown, Star } from "@/components/ui/Icons";
  * bottom of the screen, which is exactly the wrong place for it.
  */
 export function Hero() {
+  const { shop } = useLocation();
+
   return (
     <section className="hero" id="top">
       <div className="hero-media">
@@ -35,18 +39,30 @@ export function Hero() {
 
       <div className="wrap hero-inner">
         <div className="hero-copy">
-          <Reveal className="hero-rating" delay={60}>
-            <span className="stars stars-lg" aria-hidden>
-              <Star size={22} />
-              <Star size={22} />
-              <Star size={22} />
-              <Star size={22} />
-              <Star size={22} />
-            </span>
-            <a href={site.reviewsUrl} target="_blank" rel="noopener noreferrer">
-              <strong>{site.rating.score}</strong> from {site.rating.count} reviews
-            </a>
-          </Reveal>
+          {/* Only St Kilda has a review score to lead with; South Melbourne
+              is not a claimed Fresha venue, so it has none to quote. */}
+          {shop.rating ? (
+            <Reveal className="hero-rating" delay={60}>
+              <span className="stars stars-lg" aria-hidden>
+                <Star size={22} />
+                <Star size={22} />
+                <Star size={22} />
+                <Star size={22} />
+                <Star size={22} />
+              </span>
+              {shop.reviewsUrl ? (
+                <a href={shop.reviewsUrl} target="_blank" rel="noopener noreferrer">
+                  <strong>{shop.rating.score}</strong> from {shop.rating.count}{" "}
+                  reviews
+                </a>
+              ) : (
+                <span>
+                  <strong>{shop.rating.score}</strong> from {shop.rating.count}{" "}
+                  reviews
+                </span>
+              )}
+            </Reveal>
+          ) : null}
 
           <h1 className="hero-title">
             <Reveal variant="mask" as="span" className="display d-xxl" delay={140}>
@@ -61,19 +77,18 @@ export function Hero() {
               1991.
             </Reveal>
             <Reveal as="span" className="hero-sub" delay={420}>
-              The longest established barber shop in St Kilda — bespoke
-              transformations from skilled, friendly barbers.
+              {shop.blurb}
             </Reveal>
           </h1>
 
           <Reveal className="hero-actions" delay={500}>
             <a
               className="btn btn-gold btn-block"
-              href={site.booking}
-              target="_blank"
-              rel="noopener noreferrer"
+              href={shop.booking ?? `tel:${shop.phone}`}
+              target={shop.booking ? "_blank" : undefined}
+              rel={shop.booking ? "noopener noreferrer" : undefined}
             >
-              Book Appointment
+              {shop.booking ? "Book Appointment" : `Call ${shop.phoneDisplay}`}
             </a>
             <a className="btn btn-ghost btn-block" href="#services">
               See the Menu

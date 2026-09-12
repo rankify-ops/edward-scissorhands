@@ -1,4 +1,6 @@
-import { services, site } from "@/content/site";
+import { services } from "@/content/site";
+import { BookLink } from "@/components/location/BookLink";
+import { StKildaOnlyNote } from "@/components/location/StKildaOnlyNote";
 import { Reveal } from "@/components/ui/Reveal";
 import { Scissors } from "@/components/ui/Icons";
 
@@ -29,12 +31,16 @@ export function Services() {
             razor shave, or sit your son in our chair for a classic boys cut.
             Honest pricing, every chair.
           </Reveal>
+          <StKildaOnlyNote>
+            These are the St Kilda prices. South Melbourne is walk-in only and
+            doesn&rsquo;t publish a price list — ask in store.
+          </StKildaOnlyNote>
         </div>
 
         <ul className="menu">
           {services.map((s, i) => (
             <Reveal as="li" key={s.name} className="menu-row" delay={i * 55}>
-              <a href={site.booking} target="_blank" rel="noopener noreferrer">
+              <BookLink>
                 <span className="menu-name">
                   {s.name}
                   <em>{s.note}</em>
@@ -46,7 +52,7 @@ export function Services() {
                   A${s.price}
                   <span className="menu-cta">Book</span>
                 </span>
-              </a>
+              </BookLink>
             </Reveal>
           ))}
         </ul>
@@ -54,16 +60,11 @@ export function Services() {
         <Reveal className="services-foot" delay={120}>
           <p>
             Beard trims, hot towel straight razor shaves and student rates are on
-            the full Fresha menu.
+            the full menu at booking.
           </p>
-          <a
-            className="btn btn-gold btn-block"
-            href={site.booking}
-            target="_blank"
-            rel="noopener noreferrer"
-          >
+          <BookLink className="btn btn-gold btn-block" walkInLabel="Call the Shop">
             Book a Chair
-          </a>
+          </BookLink>
         </Reveal>
       </div>
     </section>

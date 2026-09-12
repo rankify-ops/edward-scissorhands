@@ -4,7 +4,9 @@ import { Header } from "@/components/layout/Header";
 import { Footer } from "@/components/layout/Footer";
 import { StickyBar } from "@/components/layout/StickyBar";
 import { ScrollScissors } from "@/components/ui/ScrollScissors";
-import { hours, services, site, team } from "@/content/site";
+import { services, site, team } from "@/content/site";
+import { shops } from "@/content/locations";
+import { LocationProvider } from "@/components/location/LocationProvider";
 import { asset } from "@/lib/basePath";
 import "./globals.css";
 
@@ -67,65 +69,90 @@ const DAY = [
   "Saturday",
 ];
 
-const pad = (h: number) => `${String(h).padStart(2, "0")}:00`;
+/** 18.5 -> "18:30". Hours are stored as decimals. */
+const iso = (h: number) => {
+  const whole = Math.floor(h);
+  const mins = Math.round((h - whole) * 60);
+  return `${String(whole).padStart(2, "0")}:${String(mins).padStart(2, "0")}`;
+};
 
+/*
+ * One HairSalon entity per shop, in a @graph — they are two physical places
+ * with different addresses and hours, so describing them as one would be
+ * wrong. Only St Kilda carries the price list and the ReserveAction, because
+ * only St Kilda takes online bookings; South Melbourne gets its phone number
+ * instead.
+ */
 const schema = {
   "@context": "https://schema.org",
-  "@type": "HairSalon",
-  "@id": `${site.url}/#business`,
-  name: site.name,
-  url: site.url,
-  description,
-  image: `${site.url}/img/hero-1600.webp`,
-  priceRange: "$$",
-  foundingDate: String(site.established),
-  currenciesAccepted: "AUD",
-  address: {
-    "@type": "PostalAddress",
-    streetAddress: site.address.street,
-    addressLocality: site.address.suburb,
-    addressRegion: site.address.state,
-    postalCode: site.address.postcode,
-    addressCountry: "AU",
-  },
-  areaServed: [
-    { "@type": "City", name: "St Kilda, VIC" },
-    { "@type": "City", name: "Balaclava, VIC" },
-    { "@type": "City", name: "Melbourne, VIC" },
-  ],
-  sameAs: [site.social.instagram, site.social.facebook],
-  openingHoursSpecification: hours.map((h, i) => ({
-    "@type": "OpeningHoursSpecification",
-    dayOfWeek: DAY[i],
-    opens: pad(h.open),
-    closes: pad(h.close),
-  })),
-  employee: team.map((m) => ({
-    "@type": "Person",
-    name: m.name,
-    jobTitle: m.role,
-  })),
-  hasOfferCatalog: {
-    "@type": "OfferCatalog",
-    name: "Barbering services",
-    itemListElement: services.map((s) => ({
-      "@type": "Offer",
-      price: s.price,
-      priceCurrency: "AUD",
-      itemOffered: { "@type": "Service", name: s.name, description: s.note },
-    })),
-  },
-  potentialAction: {
-    "@type": "ReserveAction",
-    target: {
-      "@type": "EntryPoint",
-      urlTemplate: site.booking,
-      actionPlatform: [
-        "http://schema.org/DesktopWebPlatform",
-        "http://schema.org/MobileWebPlatform",
-      ],
+  "@graph": shops.map((shop) => ({
+    "@type": "HairSalon",
+    "@id": `${site.url}/#${shop.id}`,
+    name: `${site.name} — ${shop.label}`,
+    url: site.url,
+    description,
+    image: `${site.url}/img/hero-1600.webp`,
+    priceRange: "$$",
+    currenciesAccepted: "AUD",
+    ...(shop.phone ? { telephone: shop.phone } : {}),
+    address: {
+      "@type": "PostalAddress",
+      streetAddress: [shop.address.line1, shop.address.line2]
+        .filter(Boolean)
+        .join(", "),
+      addressLocality: shop.address.suburb,
+      addressRegion: shop.address.state,
+      postalCode: shop.address.postcode,
+      addressCountry: "AU",
     },
-  },
+    areaServed: [{ "@type": "City", name: `${shop.address.suburb}, VIC` }],
+    sameAs: [shop.social.instagram, shop.social.facebook],
+    openingHoursSpecification: shop.hours.map((h, i) => ({
+      "@type": "OpeningHoursSpecification",
+      dayOfWeek: DAY[i],
+      opens: iso(h.open),
+      closes: iso(h.close),
+    })),
+    ...(shop.id === "st-kilda"
+      ? {
+          foundingDate: String(site.established),
+          employee: team.map((m) => ({
+            "@type": "Person",
+            name: m.name,
+            jobTitle: m.role,
+          })),
+          hasOfferCatalog: {
+            "@type": "OfferCatalog",
+            name: "Barbering services",
+            itemListElement: services.map((s) => ({
+              "@type": "Offer",
+              price: s.price,
+              priceCurrency: "AUD",
+              itemOffered: {
+                "@type": "Service",
+                name: s.name,
+                description: s.note,
+              },
+            })),
+          },
+        }
+      : {}),
+    ...(shop.booking
+      ? {
+          potentialAction: {
+            "@type": "ReserveAction",
+            target: {
+              "@type": "EntryPoint",
+              urlTemplate: shop.booking,
+              actionPlatform: [
+                "http://schema.org/DesktopWebPlatform",
+                "http://schema.org/MobileWebPlatform",
+              ],
+            },
+          },
+        }
+      : {}),
+  })),
 };
 
 export default function RootLayout({
@@ -139,11 +166,13 @@ export default function RootLayout({
       className={`${archivo.variable} ${inter.variable} ${geistMono.variable}`}
     >
       <body>
-        <ScrollScissors />
-        <Header />
-        <main>{children}</main>
-        <Footer />
-        <StickyBar />
+        <LocationProvider>
+          <ScrollScissors />
+          <Header />
+          <main>{children}</main>
+          <Footer />
+          <StickyBar />
+        </LocationProvider>
         <script
           type="application/ld+json"
           // Static, author-controlled JSON — no user input reaches this string.

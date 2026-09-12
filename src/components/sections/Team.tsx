@@ -1,4 +1,6 @@
-import { site, team } from "@/content/site";
+import { team } from "@/content/site";
+import { BookLink } from "@/components/location/BookLink";
+import { StKildaOnlyNote } from "@/components/location/StKildaOnlyNote";
 import { asset } from "@/lib/basePath";
 import { Reveal } from "@/components/ui/Reveal";
 import { ArrowUpRight } from "@/components/ui/Icons";
@@ -30,16 +32,18 @@ export function Team() {
             Licensed, local and each obsessed with their craft. Tap any chair to
             book directly with them.
           </Reveal>
+          <StKildaOnlyNote>
+            This is the St Kilda team. South Melbourne has its own barbers —
+            walk in and meet them.
+          </StKildaOnlyNote>
         </div>
 
         <ul className="team-grid">
           {team.map((member, i) => (
             <Reveal as="li" key={member.name} delay={(i % 4) * 90}>
-              <a
+              <BookLink
                 className="team-card"
-                href={`${site.booking}?modal=employee-profile`}
-                target="_blank"
-                rel="noopener noreferrer"
+                suffix="?modal=employee-profile"
               >
                 <span className="team-photo">
                   {member.photo ? (
@@ -63,7 +67,7 @@ export function Team() {
                   <em>{member.role}</em>
                   <ArrowUpRight />
                 </span>
-              </a>
+              </BookLink>
             </Reveal>
           ))}
         </ul>
