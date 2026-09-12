@@ -9,8 +9,10 @@ import { ArrowDown, Star } from "@/components/ui/Icons";
  *
  * The rating leads — 5.0 from 3,000+ reviews is the strongest thing this shop
  * has to say, so it sits above the headline rather than being buried under the
- * buttons. Then the line that shouts, then the sentence that has to rank
- * ("longest established barber shop in St Kilda"), both inside the one h1.
+ * buttons. Straight into the line that shouts, then the sentence that has to
+ * rank ("longest established barber shop in St Kilda"), both inside the one h1.
+ * The year and suburb are carried by the headline and the sub-line already, so
+ * there is no eyebrow between them.
  *
  * The booking card takes the right column on desktop and stacks under the CTAs
  * on phones, where the hero is top-aligned and content-height rather than a
@@ -46,12 +48,8 @@ export function Hero() {
             </a>
           </Reveal>
 
-          <Reveal className="eyebrow hero-eyebrow" delay={120}>
-            Est. 1991 — {site.address.suburb}, {site.address.city}
-          </Reveal>
-
           <h1 className="hero-title">
-            <Reveal variant="mask" as="span" className="display d-xxl" delay={180}>
+            <Reveal variant="mask" as="span" className="display d-xxl" delay={140}>
               Sharp since
             </Reveal>
             <Reveal

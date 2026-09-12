@@ -358,7 +358,7 @@
   align-items: center;
   flex-wrap: wrap;
   gap: 8px 14px;
-  margin-bottom: 22px;
+  margin-bottom: 26px;
   font-size: 15px;
   color: var(--bone-2);
 }
@@ -382,11 +382,6 @@
 .stars-lg {
   gap: 5px;
   filter: drop-shadow(0 1px 6px var(--gold-glow));
-}
-
-.hero-eyebrow {
-  display: block;
-  margin-bottom: 18px;
 }
 
 .hero-title {
