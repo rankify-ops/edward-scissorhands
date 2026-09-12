@@ -3,7 +3,10 @@
 Free sample home page for Edward Scissorhands, 190 Carlisle Street, St Kilda.
 Static Next.js export on GitHub Pages.
 
-**Preview:** https://rankify-ops.github.io/edward-scissorhands/
+**Previews — two looks, same site:**
+
+- Gold on black — https://rankify-ops.github.io/edward-scissorhands/
+- White monochrome — https://rankify-ops.github.io/edward-scissorhands/white/
 
 ## Design brief
 
@@ -101,6 +104,38 @@ and it becomes a plain scroll-snap strip — nothing is lost, it just holds stil
 - **Schema.org `HairSalon`** in `layout.tsx` — address, per-day opening hours,
   the full price list, all eleven barbers, and a `ReserveAction` pointing at
   Fresha.
+
+## Two looks, one codebase
+
+`NEXT_PUBLIC_THEME` picks the palette at build time and gets stamped onto
+`<html data-theme>`; everything else is CSS.
+
+- **`gold`** — the shop's own brass on near-black, the original.
+- **`white`** — a monochrome light variation: off-white ground, black ink, no
+  accent colour at all, and every photograph desaturated.
+
+Almost all of the white theme is token reassignment. `--gold` simply becomes
+ink, so every CTA, rule, marker and the scissors rail turn black without a
+single component knowing there is a second theme. Only the handful of rules
+that bake in a dark ground — the scrims over photography, the frosted bars, the
+marquee band — are restated.
+
+Two things needed real work rather than a token swap:
+
+- **The logo.** The supplied artwork is gold-on-black with *white* letterforms,
+  which cannot go on a white page — the letters disappear. The white theme uses
+  a desaturated and levelled copy generated from the same source, where the
+  brass lands as dark ink (`*-mono.png`, built by the script in the commit).
+- **The hero scrim.** The dark theme darkens the photograph under light type.
+  The white theme has to do the opposite, and the photograph is a mid-to-dark
+  grey frame that fights black type. It is lifted to high key and sat behind a
+  *horizontal* scrim rather than the dark theme's angled one — the copy column
+  is a fixed band down the left, so its protection has to be a fixed band too.
+  Phones get a flat heavy wash instead, since a single column has no clean side
+  to hide the photograph in.
+
+The deploy workflow exports the same source twice, each with its own basePath,
+and nests the second inside the first so one Pages site serves both.
 
 ## Two shops, one codebase
 
@@ -223,7 +258,7 @@ Two changes, and they must happen together or every asset 404s:
 ```
 src/
   app/
-    globals.css      tokens, type scale, shared primitives
+    globals.css      tokens, type scale, shared primitives, white theme
     components.css   per-section styles
     layout.tsx       fonts, metadata, JSON-LD
     page.tsx         section order
@@ -237,6 +272,7 @@ src/
                      Photo, Icons
   content/site.ts       brand-level copy, prices, team, galleries
   content/locations.ts  the two shops, and DEFAULT_LOCATION
+  lib/theme.ts          THEME, and which logo file each theme uses
 fresha/              service, team and variant data captured from the
                      partner dashboard — the source for prices
 ```

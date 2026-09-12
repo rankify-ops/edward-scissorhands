@@ -8,6 +8,7 @@ import { services, site, team } from "@/content/site";
 import { shops } from "@/content/locations";
 import { LocationProvider } from "@/components/location/LocationProvider";
 import { asset } from "@/lib/basePath";
+import { THEME } from "@/lib/theme";
 import "./globals.css";
 
 // Archivo does the shouting, Inter the talking, Geist Mono the labelling.
@@ -163,6 +164,7 @@ export default function RootLayout({
   return (
     <html
       lang="en-AU"
+      data-theme={THEME}
       className={`${archivo.variable} ${inter.variable} ${geistMono.variable}`}
     >
       <body>

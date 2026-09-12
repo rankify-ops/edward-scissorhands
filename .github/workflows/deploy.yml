@@ -29,13 +29,30 @@ jobs:
       # record sharp's Linux-only optional deps, so npm ci refuses to install.
       - run: npm install --no-audit --no-fund
 
-      - name: Build static export
+      # Two looks, one codebase — the same source is exported twice, each with
+      # its own basePath, and the second is nested inside the first so a single
+      # Pages site serves both:
+      #   /edward-scissorhands/        the gold-on-black original
+      #   /edward-scissorhands/white/  the monochrome variation
+      - name: Build the gold theme
         env:
-          # Preview lives at rankify-ops.github.io/edward-scissorhands/.
           # At domain cutover: delete this line AND add public/CNAME, together —
           # one without the other 404s every asset.
           NEXT_PUBLIC_BASE_PATH: /edward-scissorhands
+          NEXT_PUBLIC_THEME: gold
         run: npm run build
+
+      # next build always writes to out/, so the first export has to move aside
+      # before the second one runs.
+      - run: mv out site
+
+      - name: Build the white theme
+        env:
+          NEXT_PUBLIC_BASE_PATH: /edward-scissorhands/white
+          NEXT_PUBLIC_THEME: white
+        run: npm run build
+
+      - run: mv out site/white && mv site out
 
       - name: Disable Jekyll
         # Without this Pages drops every directory starting with an underscore,
