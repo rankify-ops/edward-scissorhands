@@ -1,0 +1,467 @@
+@import "tailwindcss";
+/* Tokens and primitives live here; per-section styles in components.css. */
+@import "./components.css";
+
+/*
+ * Edward Scissorhands Barber Shop
+ * ───────────────────────────────
+ * Dark-first, editorial, one accent. The client named two references:
+ * kingsdomain.com.au (near-black ground, huge full-stop headlines, pill nav
+ * buttons, a full-screen mobile menu of big stacked links on hairlines) and
+ * jinandko.com.au (scrolling marquee band, accordion services, portrait team
+ * grid). This takes the skeleton from both and dresses it in the client's own
+ * gold, sampled straight from their crest: #DCB52E on the highlights,
+ * #A9800F in the shadows, so --gold sits between them.
+ *
+ * The running idea is "the cut": a dashed cut-line and a travelling pair of
+ * scissors thread the whole page together, section rules are perforated
+ * rather than solid, and images arrive behind a blade wipe.
+ */
+
+:root {
+  /* Ground — near-black, never pure #000, so the crest's own black reads. */
+  --ink: #0a0a0a;
+  --ink-2: #101010;
+  --ink-3: #161616;
+  --ink-4: #1e1e1e;
+
+  /* Gold, sampled from the logo file. */
+  --gold: #c9a227;
+  --gold-bright: #dcb52e;
+  --gold-deep: #a9800f;
+  --gold-glow: rgba(201, 162, 39, 0.28);
+
+  /* Type — warm off-white, never #fff, to sit with the brass. */
+  --bone: #f4f1ea;
+  --bone-2: rgba(244, 241, 234, 0.62);
+  --bone-3: rgba(244, 241, 234, 0.38);
+
+  --rule: rgba(244, 241, 234, 0.12);
+  --rule-gold: rgba(201, 162, 39, 0.3);
+
+  --ease: cubic-bezier(0.16, 1, 0.3, 1);
+  --ease-blade: cubic-bezier(0.65, 0, 0.35, 1);
+
+  /* Left gutter the travelling scissors lives in. */
+  --gutter: 68px;
+}
+
+@theme inline {
+  --color-ink: var(--ink);
+  --color-ink-2: var(--ink-2);
+  --color-ink-3: var(--ink-3);
+  --color-ink-4: var(--ink-4);
+  --color-gold: var(--gold);
+  --color-gold-bright: var(--gold-bright);
+  --color-gold-deep: var(--gold-deep);
+  --color-bone: var(--bone);
+  --color-bone-2: var(--bone-2);
+  --color-bone-3: var(--bone-3);
+  --color-rule: var(--rule);
+  --font-display: var(--font-archivo);
+  --font-sans: var(--font-inter);
+  --font-mono: var(--font-geist-mono);
+  --default-transition-timing-function: cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+* {
+  -webkit-tap-highlight-color: transparent;
+}
+
+html {
+  scroll-behavior: smooth;
+  /* Sticky header height, so #anchors don't land under the bar. */
+  scroll-padding-top: 88px;
+  background: var(--ink);
+}
+
+body {
+  background: var(--ink);
+  color: var(--bone);
+  font-family: var(--font-sans), system-ui, sans-serif;
+  font-size: 16px;
+  line-height: 1.6;
+  overflow-x: clip;
+  -webkit-font-smoothing: antialiased;
+}
+
+::selection {
+  background: var(--gold);
+  color: var(--ink);
+}
+
+/* ─────────────────────────── Type scale ─────────────────────────── */
+
+/*
+ * One rule for every display line: Archivo, heavy, uppercase, tracking that
+ * tightens as the size grows, and leading under 1. Kings Domain's headlines
+ * are set this way and it is most of why they land.
+ */
+.display {
+  font-family: var(--font-display), system-ui, sans-serif;
+  font-weight: 800;
+  text-transform: uppercase;
+  line-height: 0.86;
+  letter-spacing: -0.03em;
+  /* Tracking this tight closes the word space up too; hand it back. */
+  word-spacing: 0.1em;
+  text-wrap: balance;
+}
+
+.d-xxl {
+  font-size: clamp(2.9rem, 10.4vw, 8.6rem);
+  letter-spacing: -0.042em;
+  line-height: 0.84;
+}
+.d-xl {
+  font-size: clamp(2.6rem, 7.4vw, 6rem);
+  letter-spacing: -0.038em;
+}
+.d-lg {
+  font-size: clamp(2rem, 4.6vw, 3.6rem);
+  letter-spacing: -0.032em;
+}
+.d-md {
+  font-size: clamp(1.5rem, 2.6vw, 2.1rem);
+  letter-spacing: -0.025em;
+  line-height: 0.95;
+}
+
+/* Mono micro-label — the eyebrow above every section heading. */
+.eyebrow {
+  font-family: var(--font-mono), ui-monospace, monospace;
+  font-size: 11px;
+  font-weight: 500;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--gold);
+}
+
+.lede {
+  font-size: clamp(1rem, 1.35vw, 1.15rem);
+  line-height: 1.65;
+  color: var(--bone-2);
+  max-width: 56ch;
+}
+
+/* ─────────────────────────── Layout ─────────────────────────── */
+
+.wrap {
+  width: min(1280px, 100% - 40px);
+  margin-inline: auto;
+}
+@media (min-width: 900px) {
+  .wrap {
+    width: min(1280px, 100% - 96px);
+  }
+}
+
+.section {
+  padding-block: clamp(72px, 11vw, 160px);
+  position: relative;
+}
+
+/* ─────────────────────────── Buttons ─────────────────────────── */
+
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  height: 52px;
+  padding-inline: 26px;
+  border-radius: 999px;
+  font-family: var(--font-mono), ui-monospace, monospace;
+  font-size: 12px;
+  font-weight: 500;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  white-space: nowrap;
+  transition: background 0.35s var(--ease), color 0.35s var(--ease),
+    border-color 0.35s var(--ease), transform 0.35s var(--ease);
+}
+.btn:active {
+  transform: scale(0.97);
+}
+
+.btn-gold {
+  background: var(--gold);
+  color: var(--ink);
+  border: 1px solid var(--gold);
+}
+.btn-gold:hover {
+  background: var(--gold-bright);
+  border-color: var(--gold-bright);
+}
+
+.btn-ghost {
+  background: transparent;
+  color: var(--bone);
+  border: 1px solid var(--rule);
+}
+.btn-ghost:hover {
+  border-color: var(--gold);
+  color: var(--gold);
+}
+
+.btn-sm {
+  height: 40px;
+  padding-inline: 18px;
+  font-size: 10.5px;
+  letter-spacing: 0.14em;
+}
+
+/*
+ * CTAs go full width on phones and shrink to content from 640px up — the
+ * house rule across every Rankify build.
+ */
+.btn-block {
+  width: 100%;
+}
+@media (min-width: 640px) {
+  .btn-block {
+    width: auto;
+  }
+}
+
+/* ─────────────────────────── The cut line ─────────────────────────── */
+
+/*
+ * Section dividers are perforated, not solid — a dashed line waiting to be
+ * cut. The dash pattern is drawn with a gradient rather than border-style so
+ * the gap size is exact and the colour can fade along its length.
+ */
+.cutline {
+  height: 1px;
+  background-image: linear-gradient(
+    to right,
+    var(--rule-gold) 0 10px,
+    transparent 10px 20px
+  );
+  background-size: 20px 1px;
+  background-repeat: repeat-x;
+}
+
+/* ─────────────────────────── Entrances ─────────────────────────── */
+
+/*
+ * Two entrances driven by one observer in Reveal.tsx. `rise` lifts and fades
+ * ordinary content; `mask` slides display type up from behind a hard edge so
+ * the letters are genuinely occluded rather than merely transparent.
+ */
+.rise {
+  opacity: 0;
+  transform: translateY(22px);
+  transition: opacity 0.85s var(--ease), transform 0.85s var(--ease);
+}
+.rise[data-shown="true"] {
+  opacity: 1;
+  transform: none;
+}
+
+.mask {
+  overflow: hidden;
+  display: block;
+  /*
+   * At display sizes with leading under 1, the capitals overshoot the line box
+   * at both ends and overflow:hidden slices their tops off. Padding grows the
+   * clip region and an equal negative margin puts the box back where it was,
+   * so the letters clear but nothing moves.
+   */
+  padding-block: 0.16em 0.1em;
+  margin-block: -0.16em -0.1em;
+}
+.mask > span {
+  display: block;
+  transform: translateY(108%);
+  transition: transform 1s var(--ease);
+}
+.mask[data-shown="true"] > span {
+  transform: none;
+}
+
+/*
+ * The blade wipe. An image sits under a gold hairline that sweeps across it
+ * as it enters the viewport, the picture appearing in the line's wake — the
+ * same gesture as the travelling scissors, applied to photography.
+ */
+.snip {
+  position: relative;
+  overflow: hidden;
+}
+.snip > * {
+  clip-path: inset(0 100% 0 0);
+  transition: clip-path 1.05s var(--ease-blade);
+}
+.snip[data-shown="true"] > * {
+  clip-path: inset(0 0 0 0);
+}
+/*
+ * The blade itself is a full-width layer carrying a 2px line hard against its
+ * left edge plus a short glow falloff. Translating that layer by exactly 100%
+ * walks the line from one edge to the other without needing to know the
+ * element's pixel width.
+ */
+.snip::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background: linear-gradient(
+    to right,
+    var(--gold-bright) 0 2px,
+    var(--gold-glow) 2px 14px,
+    transparent 14px
+  );
+  opacity: 0;
+}
+.snip[data-shown="true"]::after {
+  animation: blade-sweep 1.05s var(--ease-blade) forwards;
+}
+@keyframes blade-sweep {
+  0% {
+    opacity: 1;
+    transform: translateX(0);
+  }
+  92% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+    transform: translateX(100%);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+  .rise,
+  .mask > span,
+  .snip > * {
+    opacity: 1 !important;
+    transform: none !important;
+    clip-path: none !important;
+    transition: none !important;
+  }
+  .snip::after {
+    display: none;
+  }
+}
+
+/* ──────────────────── The travelling scissors rail ──────────────────── */
+
+/*
+ * Hidden until ScrollScissors decides there is room for it and motion is
+ * welcome — it sets data-live once its rAF loop is running, so the rail never
+ * flashes in on a phone or for a reduced-motion reader.
+ */
+.scissor-rail {
+  position: fixed;
+  inset: 0 auto 0 0;
+  width: var(--gutter);
+  z-index: 30;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 0.6s var(--ease);
+}
+.scissor-rail[data-live="true"] {
+  opacity: 1;
+}
+
+.rail-dashed,
+.rail-cut {
+  position: absolute;
+  left: 50%;
+  width: 1px;
+  margin-left: -0.5px;
+}
+
+.rail-dashed {
+  top: 0;
+  bottom: 0;
+  background-image: linear-gradient(
+    to bottom,
+    rgba(244, 241, 234, 0.16) 0 7px,
+    transparent 7px 16px
+  );
+  background-size: 1px 16px;
+}
+
+.rail-cut {
+  top: 0;
+  height: 0;
+  background: linear-gradient(
+    to bottom,
+    transparent,
+    var(--gold-deep) 12%,
+    var(--gold) 100%
+  );
+}
+
+.rail-rig {
+  position: absolute;
+  top: 0;
+  left: 50%;
+  margin: -20px 0 0 -20px;
+  will-change: transform;
+  filter: drop-shadow(0 0 10px var(--gold-glow));
+}
+
+.blade {
+  /* Pivot in viewBox units, matching the rivet drawn at (12, 13.4). */
+  transform-box: view-box;
+  transform-origin: 12px 13.4px;
+  transition: transform 0.42s var(--ease-blade);
+}
+
+.rail-clippings {
+  position: absolute;
+  inset: 0;
+}
+
+/* One cut hair: a short tapered sliver that tumbles as it falls. */
+.clipping {
+  position: absolute;
+  left: 50%;
+  width: 1.5px;
+  height: var(--len, 10px);
+  margin-left: -0.75px;
+  border-radius: 2px;
+  background: linear-gradient(to bottom, var(--gold-deep), rgba(120, 92, 20, 0));
+  animation: clipping-fall 1.9s cubic-bezier(0.3, 0.1, 0.5, 1) forwards;
+}
+@keyframes clipping-fall {
+  0% {
+    opacity: 0;
+    transform: translate3d(0, 0, 0) rotate(0deg);
+  }
+  12% {
+    opacity: 0.9;
+  }
+  100% {
+    opacity: 0;
+    transform: translate3d(var(--dx), var(--dy), 0) rotate(var(--spin));
+  }
+}
+
+/*
+ * With the rail present, the page content shifts right to clear it. Only from
+ * 1100px up, which is exactly where ScrollScissors switches itself on.
+ *
+ * The margin takes whichever is larger: the room the rail needs plus a 28px
+ * gap, or the offset that would centre the column. So the text is centred on
+ * wide screens and simply pushed clear of the cut line on narrow ones, and it
+ * never crowds the rail at either end.
+ */
+@media (min-width: 1100px) {
+  .wrap {
+    --col: min(1280px, 100vw - var(--gutter) - 88px);
+    width: var(--col);
+    margin-left: max(
+      calc(var(--gutter) + 28px),
+      calc((100vw - var(--col)) / 2)
+    );
+    margin-right: 0;
+  }
+}
