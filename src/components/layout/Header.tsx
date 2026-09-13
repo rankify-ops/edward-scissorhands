@@ -1,8 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { LOGO, nav, site } from "@/content/site";
-import { logoSrc } from "@/lib/theme";
+import { LOGO, logos, nav, site } from "@/content/site";
 import { useLocation } from "@/components/location/LocationProvider";
 import { LocationSwitch } from "@/components/location/LocationSwitch";
 import { asset } from "@/lib/basePath";
@@ -52,7 +51,7 @@ export function Header() {
             aria-label={`${site.name} — home`}
           >
             {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img src={asset(logoSrc("header"))} alt={site.name} width={560} height={155} />
+            <img src={asset(logos[LOGO].header)} alt={site.name} width={560} height={155} />
           </a>
 
           <nav className="header-nav" aria-label="Primary">

@@ -116,9 +116,9 @@ and it becomes a plain scroll-snap strip — nothing is lost, it just holds stil
 
 The white theme only moves the accent tokens, so every CTA, star, rule, marker,
 the marquee band and the scissors rail follow without any component knowing.
-The handful of places the brass was written as a literal colour are restated,
-and the logo uses a desaturated copy with the levels lifted so the gold lands
-close to white (`scripts/build-mono-logo.js`).
+The handful of places the brass was written as a literal colour are restated.
+The logo stays in its own gold in both themes — it is the one image the
+black-and-white filter skips.
 
 The deploy workflow exports the same source twice, each with its own basePath,
 and nests the second inside the first so one Pages site serves both.

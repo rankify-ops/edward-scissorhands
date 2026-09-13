@@ -1,7 +1,6 @@
 "use client";
 
-import { LOGO, nav, site } from "@/content/site";
-import { logoSrc } from "@/lib/theme";
+import { LOGO, logos, nav, site } from "@/content/site";
 import { useLocation } from "@/components/location/LocationProvider";
 import { asset } from "@/lib/basePath";
 import { Reveal } from "@/components/ui/Reveal";
@@ -39,7 +38,7 @@ export function Footer() {
         <div className="footer-brand" data-lockup={LOGO}>
           {/* eslint-disable-next-line @next/next/no-img-element */}
           <img
-            src={asset(logoSrc("footer"))}
+            src={asset(logos[LOGO].footer)}
             alt={site.name}
             width={1200}
             height={332}

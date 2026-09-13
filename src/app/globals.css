@@ -493,9 +493,6 @@ html[data-theme="white"] {
 }
 
 /* The few places the brass was written as a literal rather than a token. */
-html[data-theme="white"] .brand img {
-  filter: drop-shadow(0 2px 14px rgba(255, 255, 255, 0.12));
-}
 html[data-theme="white"] .book-option[data-active] {
   background: rgba(255, 255, 255, 0.08);
 }
@@ -506,9 +503,16 @@ html[data-theme="white"] .clipping {
   background: linear-gradient(to bottom, #d9d6cf, rgba(217, 214, 207, 0));
 }
 
-/* Every photograph goes black and white; hover no longer brings colour back. */
+/* Every photograph goes black and white; hover no longer brings colour back.
+   The logo is the exception — it stays in the shop's own colours. */
 html[data-theme="white"] img {
   filter: grayscale(1);
+}
+html[data-theme="white"] .brand img {
+  filter: drop-shadow(0 2px 14px rgba(255, 255, 255, 0.12));
+}
+html[data-theme="white"] .footer-brand img {
+  filter: none;
 }
 html[data-theme="white"] .hero-media img {
   filter: grayscale(1) contrast(1.1) brightness(1.02);

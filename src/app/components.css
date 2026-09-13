@@ -353,11 +353,12 @@
  * sitting as a 14px garnish — they are the first thing read and they should
  * look like it.
  */
+/* Stars on their own row, the count set underneath them. */
 .hero-rating {
   display: flex;
-  align-items: center;
-  flex-wrap: wrap;
-  gap: 8px 14px;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 8px;
   margin-bottom: 26px;
   font-size: 15px;
   color: var(--bone-2);
@@ -393,6 +394,19 @@
 }
 .hero-title .hero-line-gold {
   color: var(--gold);
+}
+/*
+ * Phones set SHARP SINCE 1991. on one line: the two masked halves sit inline
+ * and the size is taken from the viewport so the whole phrase fits the column.
+ */
+@media (max-width: 639px) {
+  .hero-title > .display.d-xxl {
+    display: inline-block;
+    font-size: 8.6vw;
+  }
+  .hero-title > .display.d-xxl:first-child {
+    margin-right: 0.24em;
+  }
 }
 .hero-sub {
   display: block;
