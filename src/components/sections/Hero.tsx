@@ -44,8 +44,8 @@ export function Hero() {
               is not a claimed Fresha venue, so it has none to quote. */}
           {shop.rating ? (
             <Reveal className="hero-rating" delay={60}>
-              {/* Four real clients off the shop's Fresha portfolio, in colour
-                  in both themes — the faces are the proof, not decoration. */}
+              {/* Four of the shop's own barbers — Mateo, Jack, Max and Vlad —
+                  in colour in both themes. */}
               <span className="rating-faces" aria-hidden>
                 {[1, 2, 3, 4].map((n) => (
                   // eslint-disable-next-line @next/next/no-img-element
