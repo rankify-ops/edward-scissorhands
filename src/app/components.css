@@ -395,6 +395,25 @@
   flex-direction: column;
   gap: 5px;
 }
+/*
+ * Phones: faces and stars share the first row, and the review count drops to
+ * its own full-width line underneath both. The body wrapper steps out of the
+ * layout so its two children can sit in different rows of the grid.
+ */
+@media (max-width: 639px) {
+  .hero-rating {
+    display: grid;
+    grid-template-columns: auto 1fr;
+    align-items: center;
+    gap: 10px 12px;
+  }
+  .rating-body {
+    display: contents;
+  }
+  .rating-body > :last-child {
+    grid-column: 1 / -1;
+  }
+}
 .hero-rating a {
   color: var(--bone-2);
   transition: color 0.3s var(--ease);
