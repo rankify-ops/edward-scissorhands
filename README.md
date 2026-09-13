@@ -6,7 +6,7 @@ Static Next.js export on GitHub Pages.
 **Previews — two looks, same site:**
 
 - Gold on black — https://rankify-ops.github.io/edward-scissorhands/
-- White monochrome — https://rankify-ops.github.io/edward-scissorhands/white/
+- White on black — https://rankify-ops.github.io/edward-scissorhands/white/
 
 ## Design brief
 
@@ -107,32 +107,18 @@ and it becomes a plain scroll-snap strip — nothing is lost, it just holds stil
 
 ## Two looks, one codebase
 
-`NEXT_PUBLIC_THEME` picks the palette at build time and gets stamped onto
+`NEXT_PUBLIC_THEME` picks the accent at build time and gets stamped onto
 `<html data-theme>`; everything else is CSS.
 
 - **`gold`** — the shop's own brass on near-black, the original.
-- **`white`** — a monochrome light variation: off-white ground, black ink, no
-  accent colour at all, and every photograph desaturated.
+- **`white`** — the same near-black site with white standing in for the brass,
+  and every photograph in black and white.
 
-Almost all of the white theme is token reassignment. `--gold` simply becomes
-ink, so every CTA, rule, marker and the scissors rail turn black without a
-single component knowing there is a second theme. Only the handful of rules
-that bake in a dark ground — the scrims over photography, the frosted bars, the
-marquee band — are restated.
-
-Two things needed real work rather than a token swap:
-
-- **The logo.** The supplied artwork is gold-on-black with *white* letterforms,
-  which cannot go on a white page — the letters disappear. The white theme uses
-  a desaturated and levelled copy generated from the same source, where the
-  brass lands as dark ink (`*-mono.png`, built by the script in the commit).
-- **The hero scrim.** The dark theme darkens the photograph under light type.
-  The white theme has to do the opposite, and the photograph is a mid-to-dark
-  grey frame that fights black type. It is lifted to high key and sat behind a
-  *horizontal* scrim rather than the dark theme's angled one — the copy column
-  is a fixed band down the left, so its protection has to be a fixed band too.
-  Phones get a flat heavy wash instead, since a single column has no clean side
-  to hide the photograph in.
+The white theme only moves the accent tokens, so every CTA, star, rule, marker,
+the marquee band and the scissors rail follow without any component knowing.
+The handful of places the brass was written as a literal colour are restated,
+and the logo uses a desaturated copy with the levels lifted so the gold lands
+close to white (`scripts/build-mono-logo.js`).
 
 The deploy workflow exports the same source twice, each with its own basePath,
 and nests the second inside the first so one Pages site serves both.

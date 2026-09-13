@@ -1,11 +1,11 @@
 const sharp = require('sharp');
 /*
- * Monochrome logo files for the white theme. Plain grayscale leaves the brass
- * as a pale mid-grey that washes out on an off-white ground, so the levels are
- * pulled down after desaturating — the gold lands as dark ink and the crest
- * reads as a black mark.
+ * Monochrome logo files for the white theme, which keeps the near-black ground
+ * and swaps the brass for white. Plain grayscale leaves the gold as a muddy
+ * mid-grey on black, so the levels are lifted after desaturating — the gold
+ * lands close to white and reads as the same accent as the rest of the page.
  */
-const LEVELS = [1.25, -60];
+const LEVELS = [1.35, 30];
 
 (async () => {
   const jobs = [

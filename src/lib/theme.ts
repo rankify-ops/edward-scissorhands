@@ -2,8 +2,8 @@
  * Two looks, one codebase.
  *
  *   "gold"   the shop's own brass on near-black — the original
- *   "white"  a monochrome light variation: white ground, black ink, no accent
- *            colour at all, and every photograph desaturated
+ *   "white"  the same near-black site with white in place of the brass, and
+ *            every photograph in black and white
  *
  * Set at build time from NEXT_PUBLIC_THEME, stamped onto <html> as data-theme,
  * and everything else is CSS. The deploy workflow runs the build twice so both
@@ -17,10 +17,9 @@ export const THEME: Theme =
 /*
  * Which logo file to use, given the lockup (LOGO) and the theme.
  *
- * The supplied artwork is gold-on-black with white letterforms, which cannot
- * go on a white page — the letters would disappear. The white theme therefore
- * uses a desaturated and levelled copy, generated from the same source, where
- * the brass lands as dark ink.
+ * The supplied artwork is gold-on-black. The white theme uses a desaturated
+ * copy with the levels lifted, generated from the same source by
+ * scripts/build-mono-logo.js, so the brass lands close to white.
  */
 import { LOGO, logos } from "@/content/site";
 

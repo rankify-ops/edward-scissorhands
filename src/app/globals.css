@@ -478,147 +478,49 @@ body {
 /* ═══════════════════════ White variation ═══════════════════════ */
 
 /*
- * The monochrome light look, set by NEXT_PUBLIC_THEME at build time.
- *
- * Almost all of it is token reassignment: the ground and the ink swap, and the
- * accent stops being a colour at all — "gold" becomes ink, so every CTA, rule
- * and marker that was brass turns black without a single component knowing.
- * Only the handful of rules below that bake in a dark ground need restating.
+ * Same near-black site, with white standing in for the brass: set by
+ * NEXT_PUBLIC_THEME at build time. Ground and type are untouched — only the
+ * accent tokens move, so every CTA, star, rule, marker, the marquee band and
+ * the scissors rail go white without a single component knowing. Photography
+ * is fully black and white to match.
  */
 html[data-theme="white"] {
-  /* Ground — warm off-white rather than pure paper, so photographs sit in it. */
-  --ink: #fbfaf8;
-  --ink-2: #f4f2ee;
-  --ink-3: #ebe8e2;
-  --ink-4: #e2dfd8;
-
-  /* The accent is simply ink. Nothing on the page is coloured. */
-  --gold: #121212;
-  --gold-bright: #000000;
-  --gold-deep: #55514a;
-  --gold-glow: rgba(18, 18, 18, 0.16);
-
-  /* Type reads dark on light; the tiers keep the same three weights. */
-  --bone: #121212;
-  --bone-2: rgba(18, 18, 18, 0.66);
-  --bone-3: rgba(18, 18, 18, 0.42);
-
-  --rule: rgba(18, 18, 18, 0.14);
-  --rule-gold: rgba(18, 18, 18, 0.22);
+  --gold: #f4f1ea;
+  --gold-bright: #ffffff;
+  --gold-deep: #9a978f;
+  --gold-glow: rgba(255, 255, 255, 0.22);
+  --rule-gold: rgba(255, 255, 255, 0.26);
 }
 
-/*
- * Every photograph goes black and white. Sections that set their own
- * grayscale for the dark look are overridden here rather than made
- * conditional at each call site.
- */
+/* The few places the brass was written as a literal rather than a token. */
+html[data-theme="white"] .brand img {
+  filter: drop-shadow(0 2px 14px rgba(255, 255, 255, 0.12));
+}
+html[data-theme="white"] .book-option[data-active] {
+  background: rgba(255, 255, 255, 0.08);
+}
+html[data-theme="white"] .loc-option[data-active] {
+  background: var(--gold);
+}
+html[data-theme="white"] .clipping {
+  background: linear-gradient(to bottom, #d9d6cf, rgba(217, 214, 207, 0));
+}
+
+/* Every photograph goes black and white; hover no longer brings colour back. */
 html[data-theme="white"] img {
   filter: grayscale(1);
 }
-/*
- * The hero photograph is a mid-to-dark grey frame, which on a white ground
- * fights black type instead of sitting behind it. Lifting it to high key turns
- * it into a pale ghost of itself — present, but no longer competing.
- */
 html[data-theme="white"] .hero-media img {
-  filter: grayscale(1) brightness(1.18) contrast(0.94);
+  filter: grayscale(1) contrast(1.1) brightness(1.02);
 }
-
-/*
- * A horizontal scrim, not the dark theme's angled one. The copy column is a
- * fixed band down the left, so the protection has to be a fixed band too —
- * an angled gradient falls off at exactly the height the headline sits at.
- *
- * Phones get a flat, heavy wash instead: with one column the copy runs the
- * full width, so there is no clean side to hide the photograph in.
- */
-html[data-theme="white"] .hero-wash {
-  background: linear-gradient(
-      to bottom,
-      rgba(251, 250, 248, 0.75),
-      rgba(251, 250, 248, 0.5) 45%,
-      var(--ink) 99%
-    ),
-    linear-gradient(
-      to right,
-      rgba(251, 250, 248, 0.96) 0 46%,
-      rgba(251, 250, 248, 0.72) 68%,
-      rgba(251, 250, 248, 0.34) 100%
-    );
+html[data-theme="white"] .reviews-media img {
+  filter: grayscale(1) brightness(0.5);
 }
-@media (min-width: 1100px) {
-  html[data-theme="white"] .hero-wash {
-    background: linear-gradient(
-        to bottom,
-        rgba(251, 250, 248, 0.4),
-        rgba(251, 250, 248, 0.14) 45%,
-        var(--ink) 99%
-      ),
-      linear-gradient(
-        to right,
-        rgba(251, 250, 248, 0.95) 0 44%,
-        rgba(251, 250, 248, 0.62) 66%,
-        rgba(251, 250, 248, 0.16) 100%
-      );
-  }
-}
-
-html[data-theme="white"] .reviews-wash {
-  background: linear-gradient(
-    to bottom,
-    var(--ink),
-    rgba(251, 250, 248, 0.62) 42%,
-    var(--ink)
-  );
-}
-
-/* Bars that frosted a dark page need the light equivalent. */
-html[data-theme="white"] .site-header[data-scrolled] {
-  background: rgba(251, 250, 248, 0.8);
-}
-html[data-theme="white"] .sticky-bar {
-  background: rgba(251, 250, 248, 0.9);
-}
-html[data-theme="white"] .btn-ghost {
-  background: rgba(251, 250, 248, 0.4);
-  border-color: rgba(18, 18, 18, 0.28);
-}
-html[data-theme="white"] .book-card {
-  background: rgba(255, 255, 255, 0.82);
-  box-shadow: 0 20px 50px rgba(18, 18, 18, 0.1);
-}
-html[data-theme="white"] .loc-switch {
-  background: rgba(255, 255, 255, 0.6);
-}
-html[data-theme="white"] .book-option:hover {
-  background: rgba(18, 18, 18, 0.04);
-}
-html[data-theme="white"] .book-option[data-active] {
-  background: rgba(18, 18, 18, 0.06);
+html[data-theme="white"] .work-cell:hover img,
+html[data-theme="white"] .chair-card:hover img,
+html[data-theme="white"] .team-card:hover .team-photo img {
+  filter: grayscale(1) contrast(1.08);
 }
 html[data-theme="white"] .loc-note {
-  background: rgba(18, 18, 18, 0.04);
-}
-
-/*
- * The gold band inverts to ink, and the logo's own brass is the one thing a
- * token cannot reach — a desaturated copy is swapped in by the Header.
- */
-html[data-theme="white"] .marquee {
-  background: var(--bone);
-  color: var(--ink);
-  border-block-color: rgba(18, 18, 18, 0.2);
-}
-html[data-theme="white"] .brand img {
-  filter: none;
-}
-
-/* The open/closed dot keeps its green; it is signal, not decoration. */
-html[data-theme="white"] .status[data-open="true"] .status-dot {
-  background: #2f8f47;
-}
-
-html[data-theme="white"] ::selection {
-  background: var(--bone);
-  color: var(--ink);
+  background: rgba(255, 255, 255, 0.05);
 }
