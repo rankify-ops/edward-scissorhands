@@ -7,7 +7,7 @@ import { ScrollScissors } from "@/components/ui/ScrollScissors";
 import { services, site, team } from "@/content/site";
 import { shops } from "@/content/locations";
 import { LocationProvider } from "@/components/location/LocationProvider";
-import { asset } from "@/lib/basePath";
+import { BASE_PATH, asset } from "@/lib/basePath";
 import { THEME } from "@/lib/theme";
 import "./globals.css";
 
@@ -35,21 +35,36 @@ const title = "Edward Scissorhands Barber Shop | St Kilda, Melbourne";
 const description =
   "The longest established barber shop in St Kilda and Balaclava, cutting since 1991. Skin fades, hot towel straight razor shaves, beard sculpts and boys cuts. Walk-ins welcome, seven days.";
 
+/*
+ * Absolute URLs for the link preview, built from the origin plus this build's
+ * basePath. site.url already carries "/edward-scissorhands", and asset() adds
+ * the basePath again, so resolving one against the other doubled the path and
+ * every unfurler got a 404 — build them explicitly instead.
+ */
+const ORIGIN = new URL(site.url).origin;
+const pageUrl = `${ORIGIN}${BASE_PATH}/`;
+const ogImage = {
+  url: `${ORIGIN}${BASE_PATH}/img/${THEME === "white" ? "og-white.jpg" : "og-gold.jpg"}`,
+  width: 1200,
+  height: 630,
+  alt: "Edward Scissorhands Barber Shop — vintage barber chairs",
+};
+
 export const metadata: Metadata = {
-  metadataBase: new URL(site.url),
+  metadataBase: new URL(ORIGIN),
   title,
   description,
-  alternates: { canonical: "/" },
+  alternates: { canonical: pageUrl },
   openGraph: {
     type: "website",
     locale: "en_AU",
     siteName: site.name,
-    url: site.url,
+    url: pageUrl,
     title,
     description,
-    images: [{ url: asset("/img/hero-1600.webp"), width: 1600, height: 1067 }],
+    images: [ogImage],
   },
-  twitter: { card: "summary_large_image", title, description },
+  twitter: { card: "summary_large_image", title, description, images: [ogImage.url] },
   icons: {
     icon: [
       { url: asset("/img/icon-32.png"), sizes: "32x32" },
