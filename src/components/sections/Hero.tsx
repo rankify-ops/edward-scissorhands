@@ -1,6 +1,7 @@
 "use client";
 
 import { useLocation } from "@/components/location/LocationProvider";
+import { asset } from "@/lib/basePath";
 import { Photo } from "@/components/ui/Photo";
 import { Reveal } from "@/components/ui/Reveal";
 import { BookingCard } from "@/components/ui/BookingCard";
@@ -43,24 +44,40 @@ export function Hero() {
               is not a claimed Fresha venue, so it has none to quote. */}
           {shop.rating ? (
             <Reveal className="hero-rating" delay={60}>
-              <span className="stars stars-lg" aria-hidden>
-                <Star size={22} />
-                <Star size={22} />
-                <Star size={22} />
-                <Star size={22} />
-                <Star size={22} />
+              {/* Four real clients off the shop's Fresha portfolio, in colour
+                  in both themes — the faces are the proof, not decoration. */}
+              <span className="rating-faces" aria-hidden>
+                {[1, 2, 3, 4].map((n) => (
+                  // eslint-disable-next-line @next/next/no-img-element
+                  <img
+                    key={n}
+                    src={asset(`/img/faces/face-${n}.webp`)}
+                    alt=""
+                    width={160}
+                    height={160}
+                  />
+                ))}
               </span>
-              {shop.reviewsUrl ? (
-                <a href={shop.reviewsUrl} target="_blank" rel="noopener noreferrer">
-                  <strong>{shop.rating.score}</strong> from {shop.rating.count}{" "}
-                  reviews
-                </a>
-              ) : (
-                <span>
-                  <strong>{shop.rating.score}</strong> from {shop.rating.count}{" "}
-                  reviews
+              <span className="rating-body">
+                <span className="stars stars-lg" aria-hidden>
+                  <Star size={20} />
+                  <Star size={20} />
+                  <Star size={20} />
+                  <Star size={20} />
+                  <Star size={20} />
                 </span>
-              )}
+                {shop.reviewsUrl ? (
+                  <a href={shop.reviewsUrl} target="_blank" rel="noopener noreferrer">
+                    <strong>Over {shop.rating.count.replace("+", "")}</strong>{" "}
+                    5-star reviews
+                  </a>
+                ) : (
+                  <span>
+                    <strong>Over {shop.rating.count.replace("+", "")}</strong>{" "}
+                    5-star reviews
+                  </span>
+                )}
+              </span>
             </Reveal>
           ) : null}
 

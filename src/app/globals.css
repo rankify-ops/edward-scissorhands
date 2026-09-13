@@ -511,7 +511,8 @@ html[data-theme="white"] img {
 html[data-theme="white"] .brand img {
   filter: drop-shadow(0 2px 14px rgba(255, 255, 255, 0.12));
 }
-html[data-theme="white"] .footer-brand img {
+html[data-theme="white"] .footer-brand img,
+html[data-theme="white"] .rating-faces img {
   filter: none;
 }
 html[data-theme="white"] .hero-media img {
