@@ -3,6 +3,7 @@ import { Archivo, Geist_Mono, Inter } from "next/font/google";
 import { Header } from "@/components/layout/Header";
 import { Footer } from "@/components/layout/Footer";
 import { StickyBar } from "@/components/layout/StickyBar";
+import { PreviewGate } from "@/components/PreviewGate";
 import { ScrollScissors } from "@/components/ui/ScrollScissors";
 import { services, site, team } from "@/content/site";
 import { shops } from "@/content/locations";
@@ -190,6 +191,8 @@ export default function RootLayout({
           <Footer />
           <StickyBar />
         </LocationProvider>
+        {/* Gold and /white builds share one preview: same site slug, one timer. */}
+        <PreviewGate site="edward-scissorhands" staffPath="/staff-52ab2c" clientName="Edward Scissorhands" />
         <script
           type="application/ld+json"
           // Static, author-controlled JSON — no user input reaches this string.

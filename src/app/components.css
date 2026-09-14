@@ -1645,6 +1645,12 @@
     display: none;
   }
 }
+/* Lift PreviewGate's pill and popup above the mobile sticky bar. */
+@media (max-width: 899px) {
+  :root {
+    --pg-bottom-offset: 80px;
+  }
+}
 
 /* ─────────────────────────── Focus ─────────────────────────── */
 
