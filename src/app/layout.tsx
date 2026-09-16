@@ -10,6 +10,13 @@ import { shops } from "@/content/locations";
 import { LocationProvider } from "@/components/location/LocationProvider";
 import { BASE_PATH, asset } from "@/lib/basePath";
 import { THEME } from "@/lib/theme";
+
+/*
+ * NEXT_PUBLIC_NO_GATE=1 builds an open copy with no PreviewGate, for showing
+ * the page to someone other than the client (/edward-scissorhands/2/). It is
+ * kept out of search so it never competes with the real preview.
+ */
+const OPEN_BUILD = process.env.NEXT_PUBLIC_NO_GATE === "1";
 import "./globals.css";
 
 // Archivo does the shouting, Inter the talking, Geist Mono the labelling.
@@ -52,6 +59,7 @@ const ogImage = {
 };
 
 export const metadata: Metadata = {
+  ...(OPEN_BUILD ? { robots: { index: false, follow: false } } : {}),
   metadataBase: new URL(ORIGIN),
   title,
   description,
@@ -192,7 +200,9 @@ export default function RootLayout({
           <StickyBar />
         </LocationProvider>
         {/* Gold and /white builds share one preview: same site slug, one timer. */}
-        <PreviewGate site="edward-scissorhands" staffPath="/staff-52ab2c" clientName="Edward Scissorhands" />
+        {OPEN_BUILD ? null : (
+          <PreviewGate site="edward-scissorhands" staffPath="/staff-52ab2c" clientName="Edward Scissorhands" />
+        )}
         <script
           type="application/ld+json"
           // Static, author-controlled JSON — no user input reaches this string.

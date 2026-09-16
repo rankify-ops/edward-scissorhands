@@ -34,6 +34,8 @@ jobs:
       # Pages site serves both:
       #   /edward-scissorhands/        the gold-on-black original
       #   /edward-scissorhands/white/  the monochrome variation
+      #   /edward-scissorhands/2/      the white variation with no PreviewGate,
+      #                                for showing someone other than the client
       - name: Build the gold theme
         env:
           # At domain cutover: delete this line AND add public/CNAME, together —
@@ -52,7 +54,16 @@ jobs:
           NEXT_PUBLIC_THEME: white
         run: npm run build
 
-      - run: mv out site/white && mv site out
+      - run: mv out site/white
+
+      - name: Build the open white copy
+        env:
+          NEXT_PUBLIC_BASE_PATH: /edward-scissorhands/2
+          NEXT_PUBLIC_THEME: white
+          NEXT_PUBLIC_NO_GATE: "1"
+        run: npm run build
+
+      - run: mv out site/2 && mv site out
 
       - name: Disable Jekyll
         # Without this Pages drops every directory starting with an underscore,
